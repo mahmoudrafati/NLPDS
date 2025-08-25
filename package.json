@@ -1,0 +1,27 @@
+{
+  "name": "nlpds-learning-platform",
+  "version": "1.0.0",
+  "description": "NLP Learning Platform with Multiple Choice Support",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^33.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "nlp",
+    "learning",
+    "education",
+    "quiz",
+    "vercel",
+    "serverless"
+  ],
+  "author": "NLP Learning Team",
+  "license": "MIT"
+}

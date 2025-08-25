@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "outputDirectory": ".",
 
   "routes": [
     {
@@ -15,8 +16,5 @@
     "api/**/*.js": {
       "maxDuration": 10
     }
-  },
-  "env": {
-    "JWT_SECRET": "@jwt-secret"
   }
 }

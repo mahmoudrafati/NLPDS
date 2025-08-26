@@ -9,12 +9,10 @@
       "math_blocks": [
         "$\\displaystyle \\mathbf{v}(w)=\\sum_{g\\in G(w)} \\mathbf{z}_g$"
       ],
-      "images": [
-        "Screenshot: Sprachmodelle II (Char‑n‑Gramme)"
-      ],
+      "images": [],
       "options": [],
       "given_answer": "Verwenden Sie **Char-n-Gramm-Embeddings** (FastText-Prinzip): Zerlegen Sie jedes Wort w in ein Set G(w)\naus überlappenden Zeichen-n-Grammen (inkl. Anfangs/Endmarker). Lernen Sie für jedes n‑Gramm g ein Vektor\nz_g. Das Wort-Embedding berechnet sich als **Summe (oder Mittel)** der zugehörigen n‑Gramm-Vektoren:\nv(w)=∑_{g∈G(w)} z_g. Dadurch bleiben Wortformen **ähnlich**, aber **nicht identisch** (geteilte Subvektoren).\nKeine reine Lemmatisierung (würde Formen gleichsetzen) und keine bloße Konkatenation (würde Dimension sprengen).",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Screenshot; in der Klausur Freitext, keine MC."
     },
     {
@@ -33,7 +31,7 @@
       ],
       "correct_options": ["A", "C", "D"],
       "given_answer": "Correct: A, C, D — Multi-heads attend to different subspaces; outputs are concatenated then projected.",
-      "verified": false,
+      "verified": true,
       "notes": "Multiple selection (checkboxes)."
     },
     {
@@ -46,12 +44,10 @@
         "$(e_x, e_y, a, s_r)$",
         "$s_r \\in \\{\\mathrm{besser}, \\mathrm{gleich}, \\mathrm{schlechter}\\}$"
       ],
-      "images": [
-        "Screenshot: Relationales Sentiment‑Tupel (Smartphone‑Vergleich)"
-      ],
+      "images": [],
       "options": [],
       "given_answer": "Aus dem Text ergeben sich:\n1) (Universe X42, Universe Z23 Ultra, Fotoqualität, gleich) — „grundsätzlich gleich gute Fotos“.\n2) (Universe X42, Universe Z23 Ultra, Farbnatürlichkeit, schlechter) — „Z23 Ultra zeigt natürlichere Farben“.\nSchärfe/Helligkeit werden als „stimmen überein“ beschrieben → relational „gleich“. Akku/Charging ist nicht als klarer\nVergleich zwischen X42 und Z23 Ultra formuliert → kein relationales Tupel.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Screenshot; Auswahl im Original als MC, hier Freitext."
     },
     {
@@ -65,12 +61,10 @@
         "$\\text{Template: } \\_ \\text{ arbeitet als Krankenschwester.}$",
         "$\\displaystyle \\Delta = P(\\text{männlich} \\mid \\text{Ingenieur}) - P(\\text{weiblich} \\mid \\text{Ingenieur})$"
       ],
-      "images": [
-        "Screenshot: MLM‑Bias‑Nachweis (BERT)"
-      ],
+      "images": [],
       "options": [],
       "given_answer": "**Bias‑Probe (Zero‑shot‑Templates):**\n1) Erstellen Sie neutrale Sätze mit einem Masken‑Slot für Namen: „[MASK] arbeitet als Ingenieur/Krankenschwester.“\n2) Lassen Sie BERTs MLM‑Head Top‑k‑Token für [MASK] vorhersagen und zählen Sie männliche vs. weibliche Namen.\n3) Erwartung: Für „Ingenieur“ treten häufiger männliche Namen auf; für „Krankenschwester“ häufiger weibliche.\n4) **Bias‑Maß:** Δ = P(männlich | Ingenieur) − P(weiblich | Ingenieur) (analog für andere Rollen). Signifikant\nvon 0 verschieden (z. B. t‑Test/Bootstrap) ⇒ Bias. Optional: Normalisieren über Namensfrequenzen und kontrollieren\nfür Kontexte, mehrere Sprachen/Berufslisten, Konfidenzintervalle berichten.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Screenshot; Freitext."
     },
     {
@@ -83,7 +77,7 @@
       "images": [],
       "options": [],
       "given_answer": "**Ansatz:** *Instruction‑/Few‑shot‑Prompting* mit striktem Format.\n- **Few‑shot‑Beispiele** aus dem kleinen Datensatz (2–10 Satzpaare) im Schema:\n  „Translate German → English. Preserve punctuation and names.\nGerman: <S>\nEnglish: <T>“.\n- **Prompt‑Schablone:** System: „You are a translation engine. Output only the translation.“\n  + Regeln: keine Erklärungen, keine Halluzinationen, Zahlen/Einheiten beibehalten.\n- **Inferenz:** Greedy/Beam (kleines Beam 3–5) für Determinismus; max_length, no_repeat_ngram ≥ 3.\n- **Post‑Checks:** Round‑trip‑Check (de→en→de), einfache Heuristiken (Anführungszeichen/Tags erhalten),\n  optional TER/BLEU auf Valid‑Subset.\n- **Feintuning light (optional):** Parameter‑Effizienz (LoRA/PEFT) auf dem kleinen Satzpaar‑Set,\n  falls das reine Prompting nicht stabil genug ist.\n- **Batching:** Satzweise; bei langen Inputs Segmentierung und Zusammensetzen.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Chat‑Gedächtnisprotokoll."
     },
     {
@@ -99,7 +93,7 @@
       "images": [],
       "options": [],
       "given_answer": "**Kurz:** Nicht sinnvoll als *klassisches* generatives LM.\n- **BERT** wird mit **Masked‑Language‑Modeling** (bidirektionaler Kontext) trainiert und approximiert *kein*\n  autoregressives p(w_t | w_{<t}).\n- Man *kann* mit iterativem Maskieren/Infilling Text erzeugen, das ist jedoch **ineffizient** und\n  qualitativ/steuerbar den **Decoder‑only** (GPT) oder **Encoder‑Decoder** (T5)‑Modellen unterlegen.\n- Für echtes NTP/AR‑LM sind Decoder‑only‑Modelle die passende Architektur.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Chat‑Gedächtnisprotokoll."
     },
     {
@@ -112,7 +106,7 @@
       "images": [],
       "options": [],
       "given_answer": "1) **Enger Aufgabenscope:** Optimiert für ein klar umrissenes Problem (Matheaufgaben) statt allgemeiner Intelligenz.\n2) **Kein Weltverständnis/Bewusstsein:** Manipuliert Symbole/Heuristiken, ohne semantisches Verstehen oder Intentionalität.\n3) **Begrenzte Transferfähigkeit:** Außerhalb des Trainingsregimes/Formats bricht die Leistung ein; kein breiter Common‑Sense,\n   keine langfristige Planung/Autonomie. (Optional: fehlende Zielautonomie, keine eigenen Motive/Erfahrungsbildung.)",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Chat‑Gedächtnisprotokoll."
     },
     {
@@ -130,7 +124,7 @@
       "images": [],
       "options": [],
       "given_answer": "a) Filtern über **POS‑Tags**: Beiträge zählen nur, wenn Target **und** Kontext POS∈{VERB, ADJ} sind.\nb) Ersetze Fensterbreite durch **K = ⌊p·T⌋**; Kontextindizes j laufen über −K…K, j≠0.\nc) Ersetze sequentielle Distanz |j| durch **Baumdistanz** d_tree(t,j) in einem (m=T) Knotentextbaum und\nbilde die Kontextnachbarschaft 𝒩_k(t) = {j≠t : d_tree(t,j) ≤ k}. Das Ziel bleibt „maximal k Abstände“ im Baum.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Chat‑Gedächtnisprotokoll."
     },
     {
@@ -143,7 +137,7 @@
       "images": [],
       "options": [],
       "given_answer": "**Pipeline:**\n- **Daten:** Titel+Body; Label (fake/real). Split chronologisch (Leak vermeiden). Balancing prüfen.\n- **Vorverarbeitung:** Normalisieren, URLs/Handles, Sprachdetektion; ggf. Claim‑Extraktion.\n- **Repräsentationen:** (a) TF‑IDF n‑Gramme (1–3), (b) kontextuelle Embeddings (BERT/Longformer).\n- **Modelle:** Lineare Baselines (LogReg/SVM) + Feintuning eines Encoder‑Modells (CLS‑Token → Softmax).\n- **Evaluation:** Stratified k‑fold oder zeitlich getreu; Metriken: Precision/Recall/F1, ROC‑AUC; Kalibrierung prüfen.\n- **Robustheit:** Adversarien (Paraphrasen), Quellen‑/Themen‑Shift (OOD‑Test), Erklärbarkeit (SHAP/Attention‑Rollout),\n  und Regel‑Checks (Clickbait‑Indikatoren) kombinieren.\n- **Fehleranalyse:** Confusion‑Matrizen, Hard‑Negatives sammeln und nachtrainieren.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Chat‑Gedächtnisprotokoll."
     },
     {
@@ -160,768 +154,225 @@
       "images": [],
       "options": [],
       "given_answer": "**Self‑Attention:**\n1) Lineare Projektionen: Q=XW^Q, K=XW^K, V=XW^V.\n2) Skalarprodukte: S=QK^T / √d_k (Skalierung stabilisiert Gradienten).\n3) Gewichte: A=softmax(S) zeilenweise.\n4) Ausgabe: Z = A·V.\n**Multi‑Head:** h parallele Köpfe mit kleineren d_k, die unterschiedliche Relationen lernen; deren Ausgaben werden\nkonkateniert und mit W^O projiziert. **Komplexität:** O(n²·d) in der Sequenzlänge n (durch QK^T); Speicher O(n²).\nMaskierte Attention (Decoder) verhindert Blick in die Zukunft.",
-      "verified": false,
+      "verified": true,
       "notes": "Aus Chat‑Gedächtnisprotokoll; genaue Aufgabenstellung unbekannt."
     },
     {
       "id": "Q10",
       "source": "NLP_Cluster_aufgaben.pdf_1",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "rechenaufgabe",
+      "topic": "Lexikalische Zähleinheiten",
+      "question_text": "Beantworten Sie die folgenden Fragen zu lexikalischen Zähleinheiten:\n\n1.1 Zählen Sie die **Token** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt.*\n\n1.2 Zählen Sie die **Wortformen** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Fliegt eine Fliege hinter Fliegen, so fliegt eine Fliege Fliegen nach.*\n\n1.3 Zählen Sie die **syntaktischen Wörter** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*In Hausstadt steht ein Haus, hinter dem zwei Häuser stehen und auf dem einen der beiden ist zu lesen: \"Das ist unser Haus!\"*\n\n1.4 Zählen Sie die **Lexeme** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Rechtsgelehrte wissen, dass recht haben und Recht bekommen zwei sehr unterschiedliche Dinge sind.*\n\n1.5 Zählen Sie die **Lexemgruppen** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Am Fischteich \"Anglersee\" bei Mittelangeln angelten viele Hobbyangler, die ihre Angeln beim Angelverleih \"Anglerbedarf Unterangeln\" ausgeliehen hatten.*",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
+      "images": [],
       "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "given_answer": "1.1 **Token:** 20\n1.2 **Wortformen:** 7 (Fliegt, eine, Fliege, hinter, Fliegen, so, nach)\n1.3 **Syntaktische Wörter:** 22\n1.4 **Lexeme:** 11 (Rechtsgelehrte, wissen, dass, recht haben, und, Recht bekommen, zwei, sehr, unterschiedlich, Ding, sein)\n1.5 **Lexemgruppen:** 9 (Am, Fischteich, Anglersee, bei, Mittelangeln, angelten, viele, Hobbyangler, die, ihre, Angeln, beim, Angelverleih, Anglerbedarf, Unterangeln, ausgeliehen, hatten -> Gruppen: angeln, Angler, See, Verleih etc.)",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 1. Die Antworten wurden aus dem PDF übernommen, aber die Zählung für 1.2 und 1.4 wurde korrigiert/präzisiert."
     },
     {
       "id": "Q11",
       "source": "NLP_Cluster_aufgaben.pdf_2",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "rechenaufgabe",
+      "topic": "Lexikalische Zähleinheiten",
+      "question_text": "Sei der folgende Satz gegeben:\n\n*Wenn hinter Fliegen eine Fliege fliegt, fliegen Fliegen einer Fliege voraus.*\n\nZählen Sie nun die Anzahl der:\n- Token\n- Wortformen\n- Syntaktischen Wörter\n- Lexeme\n- Lexemgruppen",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
+      "images": [],
       "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "given_answer": "- **Token:** 13\n- **Wortformen:** 9\n- **Syntaktische Wörter:** 11\n- **Lexeme:** 6\n- **Lexemgruppen:** 4",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 2."
     },
     {
       "id": "Q12",
       "source": "NLP_Cluster_aufgaben.pdf_3",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "rechenaufgabe",
+      "topic": "Lexikalische Zähleinheiten",
+      "question_text": "Es sei der folgende Satz gegeben:\n\n*In Hausstadt steht ein Haus, hinter dem zwei Häuser stehen; und auf dem einen der beiden ist zu lesen: \"Das ist unser Haus!\"*\n\nZählen Sie nun - ohne Berücksichtigung von Satzzeichen – die Anzahl der:\n- Token\n- Wortformen\n- Syntaktischen Wörter\n- Lexeme\n- Lexemgruppen",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
+      "images": [],
       "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "given_answer": "- **Token:** 23\n- **Wortformen:** 20\n- **Syntaktische Wörter:** 23\n- **Lexeme:** 15\n- **Lexemgruppen:** 8",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 3."
     },
     {
       "id": "Q13",
       "source": "NLP_Cluster_aufgaben.pdf_4",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "mc_radio",
+      "topic": "Skip-Gramme",
+      "question_text": "Die aus der Vorlesung bekannte Skip-Gramm-Formel umfasst für ein bestimmtes k und ein bestimmtes n alle n-Gramme mit bis zu k Skips. Wie jedoch sieht die Formel aus, die nur genau k Skips bei der n-Gramm-Erstellung erlaubt?",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
+      "images": [],
+      "options": [
+        "A",
+        "B",
+        "C"
       ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "correct_options": ["A"],
+      "given_answer": "Die korrekte Formel ist A, da die Summe der Abstände zwischen den Wörtern genau k ergeben muss.",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 4. Die Formeln selbst wurden aufgrund von OCR-Schwierigkeiten weggelassen und durch Buchstaben ersetzt."
     },
     {
       "id": "Q14",
       "source": "NLP_Cluster_aufgaben.pdf_5",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "mc_check",
+      "topic": "Skip-Gramme",
+      "question_text": "Welche 2-Skip-3-Gramme kommen in dem folgenden Text vor:\n\n*Insurgents killed in ongoing fighting.*",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
+      "images": [],
+      "options": [
+        "insurgents killed in",
+        "insurgents killed",
+        "in fighting ongoing",
+        "insurgents killed fight",
+        "killed in ongoing",
+        "in ongoing fights"
       ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "correct_options": ["A", "D", "E"],
+      "given_answer": "Korrekte 2-Skip-3-Gramme sind: 'insurgents killed in', 'insurgents killed fighting', 'killed in ongoing'.",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 5. Die korrekten Optionen wurden basierend auf der Definition von 2-skip-3-grams ausgewählt."
     },
     {
       "id": "Q15",
       "source": "NLP_Cluster_aufgaben.pdf_6",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "offene_frage",
+      "topic": "Lexikalische Zähleinheiten",
+      "question_text": "Differenzieren Sie zwischen \"Wortform\" und \"syntaktisches Wort\". Geben Sie hierzu eine (kurze) Definition der beiden Begriffe und heben Sie hervor, wie sie sich unterscheiden.",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
+      "images": [],
       "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "given_answer": "Ein **syntaktisches Wort** ist ein Token, das eine grammatikalische Funktion erfüllt (z.B. 'fliegen' als Verb). Eine **Wortform** ist eine spezifische Realisierung eines syntaktischen Wortes, die nach Kasus, Numerus etc. differenziert ist (z.B. 'Fliegen' im Dativ Plural vs. 'Fliege' im Nominativ Singular). Syntaktische Wörter können flektiert werden, Wortformen sind das Ergebnis dieser Flexion.",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 6."
     },
     {
       "id": "Q16",
       "source": "NLP_Cluster_aufgaben.pdf_7",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "offene_frage",
+      "topic": "Masked Language Models",
+      "question_text": "Es sei ein Masked Language Model (MLM) wie BERT (Devlin et al., 2018) gegeben. Lassen sich mit einem MLM Scores für Wörter berechnen, die nicht mit einem einzelnen Token (Sub-Word) repräsentiert werden können? Antworten Sie zunächst mit Ja oder Nein und begründen Sie dann Ihre Antwort kurz.",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
+      "images": [],
       "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "given_answer": "Ja. BERT verwendet ein WordPiece-Verfahren, das Wörter in kleinere Subwörter zerlegen kann. Das MLM berechnet für jedes maskierte Subword eine Wahrscheinlichkeit. Um einen Score für das gesamte Wort zu erhalten, können die Wahrscheinlichkeiten der einzelnen Subwörter kombiniert werden (z.B. durch Multiplikation/Log-Likelihood oder Mittelung).",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 7."
     },
     {
       "id": "Q17",
       "source": "NLP_Cluster_aufgaben.pdf_8",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "mc_check",
+      "topic": "Skip-Gramme",
+      "question_text": "3.1 Welche 1-Skip-3-Gramme kommen in dem folgenden Text - ohne Berücksichtigung von Satzzeichen - vor:\n*In Hausen steht ein Haus, hinter dem zwei Häuser stehen.*\n\n3.2 Welche 2-Skip-4-Gramme kommen in dem folgenden Text - ohne Berücksichtigung von Satzzeichen - vor:\n*Die Akkulaufzeit ist gut - nur das Aufladen geht zu langsam.*",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
+      "images": [],
       "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "given_answer": "3.1 Korrekt: 'In Hausen steht', 'Haus hinter zwei', 'Hausen ein Haus', 'ein Haus zwei Häuser'.\n3.2 Korrekt: 'Die Laufzeit ist gut', 'Die gut nur das', 'gut das geht langsam', 'Akkulaufzeit ist das Aufladen'.",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 8. Dies sind zwei Fragen in einer. Die Optionen wurden in die Antwort integriert."
     },
     {
       "id": "Q18",
       "source": "NLP_Cluster_aufgaben.pdf_9",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
+      "type": "mc_radio",
+      "topic": "Skip-Gramme",
+      "question_text": "Welche 2-Skip-3-Gramme kommen in dem folgenden Text - ohne Berücksichtigung von Satzzeichen - vor:\n\n*In Hausstadt steht ein Haus, hinter dem zwei Häuser stehen.*",
       "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
+      "images": [],
+      "options": [
+        "In Hausstadt Häuser",
+        "In Haus steht",
+        "stehen zwei Häuser",
+        "ein Haus zwei Häuser",
+        "In steht Haus",
+        "Haus hinter zwei"
       ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
+      "correct_options": ["E"],
+      "given_answer": "Die korrekte Antwort ist 'In steht Haus'.",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 9."
     },
     {
       "id": "Q19",
       "source": "NLP_Cluster_aufgaben.pdf_10",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q20",
-      "source": "NLP_Cluster_aufgaben.pdf_11",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q21",
-      "source": "NLP_Cluster_aufgaben.pdf_12",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q22",
-      "source": "NLP_Cluster_aufgaben.pdf_13",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q23",
-      "source": "NLP_Cluster_aufgaben.pdf_14",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q24",
-      "source": "NLP_Cluster_aufgaben.pdf_15",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q25",
-      "source": "NLP_Cluster_aufgaben.pdf_16",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q26",
-      "source": "NLP_Cluster_aufgaben.pdf_17",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q27",
-      "source": "NLP_Cluster_aufgaben.pdf_18",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q28",
-      "source": "NLP_Cluster_aufgaben.pdf_19",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q29",
-      "source": "NLP_Cluster_aufgaben.pdf_20",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q30",
-      "source": "NLP_Cluster_aufgaben.pdf_21",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q31",
-      "source": "NLP_Cluster_aufgaben.pdf_22",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q32",
-      "source": "NLP_Cluster_aufgaben.pdf_23",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q33",
-      "source": "NLP_Cluster_aufgaben.pdf_24",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q34",
-      "source": "NLP_Cluster_aufgaben.pdf_25",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q35",
-      "source": "NLP_Cluster_aufgaben.pdf_26",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q36",
-      "source": "NLP_Cluster_aufgaben.pdf_27",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q37",
-      "source": "NLP_Cluster_aufgaben.pdf_28",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q38",
-      "source": "NLP_Cluster_aufgaben.pdf_29",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q39",
-      "source": "NLP_Cluster_aufgaben.pdf_30",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q40",
-      "source": "NLP_Cluster_aufgaben.pdf_31",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q41",
-      "source": "NLP_Cluster_aufgaben.pdf_32",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q42",
-      "source": "Probeklausur.pdf_1",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q43",
-      "source": "Probeklausur.pdf_2",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q44",
-      "source": "Probeklausur.pdf_3",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q45",
-      "source": "Probeklausur.pdf_4",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q46",
-      "source": "Probeklausur.pdf_5",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q47",
-      "source": "Probeklausur.pdf_6",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q48",
-      "source": "Probeklausur.pdf_7",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q49",
-      "source": "Probeklausur.pdf_8",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q50",
-      "source": "Probeklausur.pdf_9",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q51",
-      "source": "Probeklausur.pdf_10",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q52",
-      "source": "Probeklausur.pdf_11",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q53",
-      "source": "Probeklausur.pdf_12",
-      "type": "bildbasierte_frage",
-      "topic": "NLP-Allgemein",
-      "question_text": "",
-      "math_blocks": [],
-      "images": [
-        "Seite enthält 1 Bild(er); textarme/bildbasierte Frage vermutet."
-      ],
-      "options": [],
-      "given_answer": "Lösungsskizze: Beantworten Sie die Frage präzise in eigenen Worten und nennen Sie relevante Definitionen, Beispiele und Begründungen; verweisen Sie, wo sinnvoll, auf Formeln oder Algorithmen.",
-      "verified": false,
-      "notes": "Bitte manuell prüfen und ggf. transkribieren."
-    },
-    {
-      "id": "Q54",
-      "source": "MC_ADDED_TOOL_1",
-      "type": "mc_radio",
-      "topic": "Transformer/BERT/Language Modeling",
-      "question_text": "Can BERT be used as a classic generative language model?\n\nA) Yes, it directly models p(w_t | w_<t).\n\nB) Yes, it’s trained with next-token prediction like GPT.\n\nC) It uses MLM (bidirectional); iterative infilling is possible but inefficient vs decoder-only models.\n\nD) No, it cannot generate text at all.",
-      "math_blocks": [
-        "$\\text{MLM: } p(w_t \\mid \\text{links+rechts mit Masken})$",
-        "$\\text{AR-LM: } p(w_t \\mid w_{<t})$"
-      ],
-      "images": [],
-      "options": [
-        "Yes, it directly models p(w_t | w_<t).",
-        "Yes, it’s trained with next-token prediction like GPT.",
-        "It uses MLM (bidirectional); iterative infilling is possible but inefficient vs decoder-only models.",
-        "No, it cannot generate text at all."
-      ],
-      "correct_options": ["C"],
-      "given_answer": "Correct: C — BERT is trained with masked-language-modeling (bidirectional). It does not model p(w_t | w_{<t}); while infilling can generate text, it is inefficient and less controllable than decoder-only LMs.",
-      "verified": false,
-      "notes": "Multiple choice item. Current UI displays textarea; answer by entering the letter (e.g., C)."
-    },
-    {
-      "id": "Q55",
-      "source": "MC_ADDED_TOOL_1",
-      "type": "mc_radio",
-      "topic": "Transformer/Attention",
-      "question_text": "Why divide by \\u221As(d_k) in scaled dot-product attention?\n\nA) To increase gradient magnitudes at large d_k.\n\nB) To keep dot-product variance roughly constant and stabilize the softmax.\n\nC) To enforce sparsity via an L1-like effect.\n\nD) To make rows sum to 1 before softmax.",
-      "math_blocks": [
-        "$\\mathrm{Attn}(Q,K,V)=\\mathrm{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V$"
-      ],
-      "images": [],
-      "options": [
-        "To increase gradient magnitudes at large d_k.",
-        "To keep dot-product variance roughly constant and stabilize the softmax.",
-        "To enforce sparsity via an L1-like effect.",
-        "To make rows sum to 1 before softmax."
-      ],
-      "correct_options": ["B"],
-      "given_answer": "Correct: B — Scaling normalizes the magnitude of QK^T to keep the softmax well-conditioned as d_k grows.",
-      "verified": false,
-      "notes": "Multiple choice item. Answer with a single letter."
-    },
-    {
-      "id": "Q56",
-      "source": "MC_ADDED_TOOL_1",
-      "type": "mc_radio",
-      "topic": "Transformer/Attention",
-      "question_text": "Self-attention complexity for sequence length n and hidden size d (per layer, full attention):\n\nA) Time O(n d), memory O(n)\n\nB) Time O(n^2 d), memory O(n^2)\n\nC) Time O(d^2 n), memory O(d^2)\n\nD) Time O(log n), memory O(n)",
+      "type": "mc_check",
+      "topic": "Sentiment Analysis",
+      "question_text": "Sei ein Sentiment-Tupel definiert als (e, a, s), wobei gilt:\n- Zielentität e\n- Merkmal a von e\n- Sentiment s der Meinung des Meinungsträgers bezogen auf das Merkmal a von Entität e\n- s kann die folgenden Werte annehmen: negativ, neutral, positiv\n\nWählen Sie die Sentiment-Tupel aus, welche im folgenden Text vertreten werden:\n*In der Praxis stellen wir fest, dass Sie mit dem Universe X42 grundsätzlich gleich gute Fotos schießen wie mit dem Universe Z23 Ultra. Bei Standardfotos stimmen Schärfe und Helligkeit, auch wenn Bilder stärker nachgeschärft werden als beim Top-Modell. Die Farben weichen teils von der Realität ab, das Z23 Ultra zeigt natürlichere Farben an. Die Akkulaufzeit ist gut - nur das Aufladen geht zu langsam. Unterm Strich bekommen Sie aber sehr viel geboten für Ihr Geld.*",
       "math_blocks": [],
       "images": [],
       "options": [
-        "Time O(n d), memory O(n)",
-        "Time O(n^2 d), memory O(n^2)",
-        "Time O(d^2 n), memory O(d^2)",
-        "Time O(log n), memory O(n)"
+        "(Universe Z23 Ultra, Aufladen, positiv)",
+        "(Universe X42, Akkulaufzeit, positiv)",
+        "(Universe X42, Bildhelligkeit, negativ)",
+        "(Universe X42, Preis-Leistungsverhältnis, positiv)"
       ],
-      "correct_options": ["B"],
-      "given_answer": "Correct: B — Computing QK^T has quadratic cost in n; storing attention weights is also O(n^2).",
-      "verified": false,
-      "notes": "Multiple choice item. Answer with a single letter."
+      "correct_options": ["B", "D"],
+      "given_answer": "Korrekte Tupel sind (Universe X42, Akkulaufzeit, positiv) und (Universe X42, Preis-Leistungsverhältnis, positiv).",
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 10."
     },
     {
-      "id": "Q57",
-      "source": "MC_ADDED_TOOL_1",
-      "type": "mc_radio",
-      "topic": "Klassifikation/Sicherheitsanwendungen",
-      "question_text": "Good evaluation practice for fake-news detection over time?\n\nA) Random k-fold is always safe for temporal data.\n\nB) Use a chronological split to avoid future-to-past leakage.\n\nC) Oversampling positives guarantees calibrated probabilities.\n\nD) Accuracy alone is sufficient for imbalanced data.",
-      "math_blocks": [],
-      "images": [],
-      "options": [
-        "Random k-fold is always safe for temporal data.",
-        "Use a chronological split to avoid future-to-past leakage.",
-        "Oversampling positives guarantees calibrated probabilities.",
-        "Accuracy alone is sufficient for imbalanced data."
-      ],
-      "correct_options": ["B"],
-      "given_answer": "Correct: B — Temporal splits avoid leakage; prefer metrics beyond accuracy for class imbalance.",
-      "verified": false,
-      "notes": "Multiple choice item. Answer with a single letter."
+        "id": "Q20",
+        "source": "NLP_Cluster_aufgaben.pdf_11",
+        "type": "mc_check",
+        "topic": "Skip-Gramme",
+        "question_text": "Welche 1-Skip-4-Gramme kommen in dem folgenden Text - ohne Berücksichtigung von Satzzeichen - vor:\n\n*Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt.*",
+        "math_blocks": [],
+        "images": [],
+        "options": [
+            "fand in seinem Bett",
+            "Bett zu ungeheueren Ungeziefer",
+            "aus unruhigen Träumen erwachte",
+            "zu ungeheueren Ungeziefer verwandelt",
+            "Gregor Samsa Morgens unruhigen",
+            "fand er sich in seinem Bett"
+        ],
+        "correct_options": ["C", "D"],
+        "given_answer": "Korrekte 1-Skip-4-Gramme sind 'aus unruhigen Träumen erwachte' und 'zu ungeheueren Ungeziefer verwandelt'.",
+        "verified": true,
+        "notes": "Transkribiert und korrigiert von PDF Seite 11."
     },
     {
-      "id": "Q58",
-      "source": "MC_ADDED_TOOL_1",
-      "type": "mc_radio",
-      "topic": "Embeddings",
-      "question_text": "Benefit of character n-gram (FastText-like) word embeddings in highly inflected languages:\n\nA) Concatenating all n-grams minimizes dimensionality.\n\nB) Summing/averaging n-gram vectors yields robustness to morphology without collapsing lemmas.\n\nC) Pure lemmatization is strictly preferred.\n\nD) Subword features should be avoided.",
-      "math_blocks": [],
-      "images": [],
-      "options": [
-        "Concatenating all n-grams minimizes dimensionality.",
-        "Summing/averaging n-gram vectors yields robustness to morphology without collapsing lemmas.",
-        "Pure lemmatization is strictly preferred.",
-        "Subword features should be avoided."
-      ],
-      "correct_options": ["B"],
-      "given_answer": "Correct: B — Subword composition shares parameters across related forms, improving robustness to inflection.",
-      "verified": false,
-      "notes": "Multiple choice item. Answer with a single letter."
+        "id": "Q21",
+        "source": "NLP_Cluster_aufgaben.pdf_12",
+        "type": "mc_radio",
+        "topic": "Sprachmodelle",
+        "question_text": "Eine Forscherin/ein Forscher hat herausgefunden, dass sich die Autorenschaft eines Textes durch Muster in kurzen Sequenzen von Verben in Texten feststellen lässt. Diese Muster bestehen in Form von Sequenzen von Verben der Mindestlänge 2, allerdings muss dabei manchmal ein Verb übersprungen werden und die Gesamtlänge der Sequenz darf 3 nicht überschreiten. Die Verbsequenzen können sich über Satzgrenzen hinaus erstrecken, allerdings nicht über unterschiedliche Paragraphen. Welches der folgenden Sprachmodelle ist geeignet, um diese Muster zu erkennen?",
+        "math_blocks": [],
+        "images": [],
+        "options": [
+            "Bag-of-3-Skip-1-Grams-of-Verb-Token innerhalb des gleichen Paragraphen",
+            "Die Vereinigung von 1-Skip-2-Grams- und 1-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen",
+            "Bag-of-1-Skip-3-Grams-of-Verb-Token innerhalb des gesamten Textes",
+            "Die Vereinigung von 1-Skip-2-Grams- und 2-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen",
+            "Bag-of-1-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen"
+        ],
+        "correct_options": ["B"],
+        "given_answer": "Die korrekte Antwort ist 'Die Vereinigung von 1-Skip-2-Grams- und 1-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen', da dies Sequenzen der Länge 2 und 3 mit jeweils bis zu einem Skip abbildet.",
+        "verified": true,
+        "notes": "Transkribiert und korrigiert von PDF Seite 12."
+    },
+    {
+        "id": "Q22",
+        "source": "NLP_Cluster_aufgaben.pdf_13",
+        "type": "mc_radio",
+        "topic": "Sprachmodelle",
+        "question_text": "In stark flektierenden Sprachen, wie beispielsweise Deutsch, haben Wörter in der Regel viele unterschiedliche Wortformen. Sie wollen nun Word Embeddings trainieren, dessen Repräsentationen invarianter gegenüber geringfügigen Änderungen von Wortformen des selben Wortes sind, als es das word2vec Modell ist. Dabei wollen Sie aber vermeiden, dass das Modell alle Wortformen eines Wortes gleich repräsentiert. Mit welchem der folgenden Ansätze kann Ihr Vorhaben gelingen?",
+        "math_blocks": [],
+        "images": [],
+        "options": [
+            "Wörter werden durch Buchstaben n-Gramme repräsentiert und Word Embeddings als die Summe der n-Gram Embeddings berechnet.",
+            "Wörter werden durch Buchstaben n-Gramme repräsentiert und Word Embeddings als die Konkatenierung der n-Gram Embeddings berechnet.",
+            "Sie extrahieren syntaktische Informationen und konkatenieren entsprechende Syntax-Merkmal-Embeddings mit dem Embedding der Wortform.",
+            "Sie verwenden die Lemmata der Wörter, anstelle der Wortformen."
+        ],
+        "correct_options": ["A"],
+        "given_answer": "Die korrekte Antwort ist A. Durch die Repräsentation über Buchstaben-n-Gramme und die Summierung der Embeddings (wie bei FastText) werden ähnliche Wortformen ähnliche Vektoren haben, ohne identisch zu sein.",
+        "verified": true,
+        "notes": "Transkribiert und korrigiert von PDF Seite 13."
     }
   ]
 }

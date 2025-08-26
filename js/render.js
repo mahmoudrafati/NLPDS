@@ -560,7 +560,7 @@ function renderQuestionCard(question) {
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">Formeln</h3>
                     <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg space-y-3">
                         ${question.math_blocks.map(block => `
-                            <div class="text-center math-block katex-container" data-latex="${escapeHtml(block)}">${block}</div>
+                            <div class="text-center math-block katex-container">${block}</div>
                         `).join('')}
                     </div>
                     <div class="mt-2 text-xs text-gray-500">

@@ -96,43 +96,102 @@ function emitEvent(event, data) {
 }
 
 /**
- * Lädt die Standard-JSON-Datei mit allen NLP-Fragen
+ * Lädt die Standard-JSON-Dateien mit allen NLP-Fragen
  * @returns {Promise<boolean>} Erfolgreich geladen
  */
 export async function loadDefaultQuestions() {
     try {
         state.ui.loading = true;
         state.ui.error = null;
+
+        console.log('🔄 Lade NLP-Fragen (mehrere Dateien)...');
         
-        console.log('🔄 Lade NLP-Fragen...');
-        const response = await fetch('./data/exam_questions_combined.json');
+        // Array der zu ladenden JSON-Dateien
+        const questionFiles = [
+            './data/questions_v1.json',
+            './data/new_questions_v1.json',
+            './data/new_questions_v2.json'
+            // Weitere Dateien hier hinzufügen:
+            // './data/another_questions.json',
+            // './data/more_questions.json'
+        ];
         
-        if (!response.ok) {
-            throw new Error(`Laden fehlgeschlagen: HTTP ${response.status} - ${response.statusText}`);
+        let allQuestions = [];
+        const loadedSources = [];
+        
+        // Lade alle Dateien sequenziell
+        for (const filePath of questionFiles) {
+            try {
+                const response = await fetch(filePath);
+                
+                if (!response.ok) {
+                    console.warn(`⚠️ Datei ${filePath} nicht gefunden oder nicht lesbar`);
+                    continue;
+                }
+                
+                const data = await response.json();
+                
+                // Neues Schema erwartet: { questions: [...] }
+                let rawQuestions = [];
+                if (Array.isArray(data?.questions)) {
+                    rawQuestions = data.questions;
+                } else if (Array.isArray(data?.exam_questions)) {
+                    // Fallback: altes Feld (nur falls vorhanden)
+                    rawQuestions = data.exam_questions;
+                    console.warn(`⚠️ Hinweis: ${filePath} enthält exam_questions – bitte auf {questions:[...]} migrieren.`);
+                } else {
+                    console.warn(`⚠️ Ungültiges Format in ${filePath}: Feld "questions" fehlt oder ist keine Liste`);
+                    continue;
+                }
+                
+                const normalizedQuestions = rawQuestions.map(q =>
+                    q && (q.answer_type || q.prompt) ? normalizeNewFormatQuestion(q) : normalizeQuestion(q)
+                );
+                
+                allQuestions.push(...normalizedQuestions);
+                
+                loadedSources.push({
+                    name: filePath.split('/').pop(), // Nur Dateiname ohne Pfad
+                    count: normalizedQuestions.length,
+                    loadTime: new Date().toISOString()
+                });
+                
+                console.log(`✅ ${normalizedQuestions.length} Fragen aus ${filePath} geladen`);
+                
+            } catch (error) {
+                console.error(`❌ Fehler beim Laden von ${filePath}:`, error);
+                // Fahre mit nächster Datei fort
+                continue;
+            }
         }
         
-        const data = await response.json();
-        
-        if (!data.exam_questions || !Array.isArray(data.exam_questions)) {
-            throw new Error('Ungültiges JSON-Format: exam_questions Array fehlt');
+        if (allQuestions.length === 0) {
+            throw new Error('Keine Fragen aus den angegebenen Dateien geladen');
         }
         
-        // Daten normalisieren und laden
-        const normalizedQuestions = data.exam_questions.map(normalizeQuestion);
-        state.questions = normalizedQuestions;
-        state.originalSources = [{ 
-            name: 'exam_questions_combined.json', 
-            count: normalizedQuestions.length,
-            loadTime: new Date().toISOString()
-        }];
+        // Entferne Duplikate basierend auf ID
+        const uniqueQuestions = [];
+        const seenIds = new Set();
         
+        for (const question of allQuestions) {
+            if (!seenIds.has(question.id)) {
+                seenIds.add(question.id);
+                uniqueQuestions.push(question);
+            } else {
+                console.warn(`⚠️ Duplikat gefunden: ${question.id} - überspringe`);
+            }
+        }
+        
+        state.questions = uniqueQuestions;
+        state.originalSources = loadedSources;
+
         updateFilters();
         persist();
-        
-        console.log(`✅ ${normalizedQuestions.length} NLP-Fragen geladen`);
+
+        console.log(`✅ ${uniqueQuestions.length} eindeutige NLP-Fragen aus ${loadedSources.length} Dateien geladen`);
         emitEvent('questionsLoaded', state.questions);
         return true;
-        
+
     } catch (error) {
         console.error('❌ Fehler beim Laden der Fragen:', error);
         state.ui.error = `Fehler: ${error.message}`;
@@ -142,7 +201,6 @@ export async function loadDefaultQuestions() {
         emitEvent('stateChange', state);
     }
 }
-
 /**
  * Importiert Fragen aus File-Upload
  * @param {FileList} files - Datei-Liste
@@ -164,12 +222,20 @@ export async function importQuestions(files) {
             const text = await file.text();
             const data = JSON.parse(text);
             
-            if (!data.exam_questions || !Array.isArray(data.exam_questions)) {
-                console.warn(`Ungültiges Format in ${file.name}: exam_questions Array fehlt`);
+            let rawQuestions = [];
+            if (Array.isArray(data?.questions)) {
+                rawQuestions = data.questions;
+            } else if (Array.isArray(data?.exam_questions)) {
+                rawQuestions = data.exam_questions;
+                console.warn(`⚠️ ${file.name}: enthält "exam_questions" – bitte migrieren auf {questions:[...]}`);
+            } else {
+                console.warn(`Ungültiges Format in ${file.name}: Feld "questions" fehlt`);
                 continue;
             }
             
-            const normalizedQuestions = data.exam_questions.map(normalizeQuestion);
+            const normalizedQuestions = rawQuestions.map(q =>
+                q && (q.answer_type || q.prompt) ? normalizeNewFormatQuestion(q) : normalizeQuestion(q)
+            );
             
             // Merge mit existierenden Fragen (Duplikate vermeiden)
             const existingIds = new Set(state.questions.map(q => q.id));
@@ -243,7 +309,93 @@ function normalizeQuestion(question) {
     
     return normalized;
 }
+/**
+ * Normalisiert ein Item im NEUEN Schema (questions[].*)
+ * und füllt Felder, die die bestehende UI/Logik erwartet.
+ */
+function normalizeNewFormatQuestion(q) {
+    // 1) Options in Text-Liste + strukturierte Kopie
+    const optionsStruct = Array.isArray(q.options) ? q.options : [];
+    const optionsText = optionsStruct.map(o => (typeof o === 'string' ? o : (o?.text ?? '')));
 
+    // 2) MC-Lösungen in ID-Form übernehmen (["A","C"] / "A")
+    let correct = [];
+    if (q.answer && q.answer.correct != null) {
+        correct = Array.isArray(q.answer.correct) ? q.answer.correct : [q.answer.correct];
+    }
+
+    // 3) "Legacy"-type ableiten, damit Filter/Renderebene weiter funktionieren
+    const at = q.answer_type || 'free_text';
+    let legacyType = 'offene_frage';
+    if (at === 'multiple_choice_single') legacyType = 'mc_radio';
+    else if (at === 'multiple_choice_multiple') legacyType = 'mc_check';
+    else if (at === 'numeric' || at === 'numeric_map') legacyType = 'rechenaufgabe';
+
+    // 4) "given_answer" als menschenlesbare Referenz bauen (für Suchindex & Export)
+    let givenAnswer = '';
+    if (q.answer) {
+        if (typeof q.answer.reference === 'string' && q.answer.reference.trim()) {
+            givenAnswer = q.answer.reference.trim();
+        } else if (q.answer.fields && typeof q.answer.fields === 'object') {
+            // numeric_map hübsch ausgeben
+            const lines = [];
+            for (const [k, v] of Object.entries(q.answer.fields)) {
+                const val = (v && typeof v.value !== 'undefined') ? v.value : v;
+                lines.push(`- ${k}: ${val}`);
+            }
+            givenAnswer = lines.join('\n');
+        } else if (typeof q.answer.value !== 'undefined') {
+            givenAnswer = String(q.answer.value);
+        } else if (Array.isArray(q.answer.tuples)) {
+            givenAnswer = q.answer.tuples.map(t => `(${t.join('; ')})`).join('\n');
+        }
+        if (q.answer.explanation && typeof q.answer.explanation === 'string') {
+            givenAnswer += (givenAnswer ? '\n' : '') + q.answer.explanation;
+        }
+    }
+
+    // 5) Objekt zurückgeben, das die bestehende App versteht (+ neue Felder behalten)
+    return {
+        // --- Felder, die die existierende App nutzt ---
+        id: q.id || `Q_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        source: q.source || 'Unbekannt',
+        type: legacyType,                              // <- für Filter/UI
+        topic: q.topic || 'Allgemein',
+        question_text: (q.prompt || '').trim(),        // <- UI rendert bisher question_text
+        math_blocks: Array.isArray(q.math) ? q.math : [],
+        images: [],                                    // neue JSON hat keine Bildpfade mehr
+        options: optionsText,                          // UI erwartet (noch) Text-Array
+        correct_options: correct,                      // MC-Auswertung
+        given_answer: givenAnswer,                     // Referenz/Begründung
+        verified: Boolean(q.verified),
+        notes: q.notes || '',
+        _isImageQuestion: false,
+        _image: {
+            kind: null, // 'user' | 'asset' | 'stub' | null
+            src: null,  // DataURL für user, Pfad für asset
+            stubKind: null, // Für stub: 'transformer', 'sentiment_pipeline', etc.
+            metadata: {}
+        },
+        
+        // --- Meta, die du nützlich findest (werden mitpersistiert) ---
+        difficulty: q.difficulty || 'mittel',
+        estimatedTime: q.estimatedTime || 5,
+        lastAnswered: null,
+        userScore: null,
+
+        // --- NEUE Felder für späteren Umbau/Renderer ---
+        version: q.version ?? 1,
+        question_format: q.question_format || 'comprehension',
+        answer_type: at,
+        points: typeof q.points === 'number' ? q.points : 1,
+        tags: Array.isArray(q.tags) ? q.tags : [],
+        materials: Array.isArray(q.materials) ? q.materials : [],
+        options_struct: optionsStruct,   // volle Objektform der Optionen
+        answer_struct: q.answer || {},   // volle strukturierte Antwort
+        hints: Array.isArray(q.hints) ? q.hints : [],
+        solution: Array.isArray(q.solution) ? q.solution : []
+    };
+}
 /**
  * Aktualisiert verfügbare Filter basierend auf geladenen Fragen
  */
@@ -964,7 +1116,13 @@ export function restore() {
         const data = JSON.parse(saved);
         
         if (data.questions && Array.isArray(data.questions)) {
-            state.questions = data.questions.map(normalizeQuestion);
+            // Bereits normalisierte Fragen einfach übernehmen
+            state.questions = data.questions;
+        } else if (data.exam_questions && Array.isArray(data.exam_questions)) {
+            // Falls jemand alte Backups lädt
+            state.questions = data.exam_questions.map(q =>
+                q && (q.answer_type || q.prompt) ? normalizeNewFormatQuestion(q) : normalizeQuestion(q)
+            );
         }
         
         if (data.originalSources) {
@@ -1102,6 +1260,10 @@ export function attachImages(questions, imageMap = { bySource: {}, byHint: {} })
     let userImages = 0, assetImages = 0, stubImages = 0;
     
     questions.forEach(q => {
+        if (!q) return;
+        // ensure structure exists even for already persisted items
+        if (!q._image) q._image = { kind: null, src: null, stubKind: null, metadata: {} };
+
         // 1) User-Upload prüfen (localStorage)
         const userImageKey = `img:${q.id}`;
         const userImageData = localStorage.getItem(userImageKey);
@@ -1124,19 +1286,21 @@ export function attachImages(questions, imageMap = { bySource: {}, byHint: {} })
         }
         
         // 2) Asset-Mapping bySource prüfen
-        if (imageMap.bySource && imageMap.bySource[q.source]) {
+        const bySource = (imageMap && imageMap.bySource) ? imageMap.bySource : {};
+        const byHint = (imageMap && imageMap.byHint) ? imageMap.byHint : {};
+        if (bySource[q.source]) {
             q._image.kind = 'asset';
-            q._image.src = `./assets/questions/${imageMap.bySource[q.source]}`;
+            q._image.src = `./assets/questions/${bySource[q.source]}`;
             q._image.metadata = { mappingType: 'bySource' };
             assetImages++;
             return;
         }
         
         // 3) Asset-Mapping byHint prüfen
-        const hintKey = findHintMapping(q, imageMap.byHint || {});
+        const hintKey = findHintMapping(q, byHint);
         if (hintKey) {
             q._image.kind = 'asset';
-            q._image.src = `./assets/questions/${imageMap.byHint[hintKey]}`;
+            q._image.src = `./assets/questions/${byHint[hintKey]}`;
             q._image.metadata = { mappingType: 'byHint', hintKey };
             assetImages++;
             return;

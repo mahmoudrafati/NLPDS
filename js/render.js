@@ -570,23 +570,25 @@ function renderQuestionCard(question) {
             ` : ''}
             
             <!-- Bildbereich mit Fallback-Kette -->
-            <div class="mb-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-3">Materialien</h3>
-                <div id="image-container-${question.id}">
-                    ${renderImageSection(question)}
-                </div>
-                <div class="mt-3 flex flex-wrap gap-2">
-                    <button id="upload-image-${question.id}" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                        📎 Bild hinzufügen/ersetzen
-                    </button>
-                    ${question._image?.stubKind ? `
-                        <button id="toggle-stub-${question.id}" class="text-sm bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700">
-                            🔄 Stub ↔ Text
+            ${hasMaterials(question) ? `
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">Materialien</h3>
+                    <div id="image-container-${question.id}">
+                        ${renderImageSection(question)}
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <button id="upload-image-${question.id}" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                            📎 Bild hinzufügen/ersetzen
                         </button>
-                    ` : ''}
+                        ${question._image?.stubKind ? `
+                            <button id="toggle-stub-${question.id}" class="text-sm bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700">
+                                🔄 Stub ↔ Text
+                            </button>
+                        ` : ''}
+                    </div>
+                    <input type="file" id="file-input-${question.id}" accept="image/*" style="display: none;">
                 </div>
-                <input type="file" id="file-input-${question.id}" accept="image/*" style="display: none;">
-            </div>
+            ` : ''}
             
             <!-- Antwortbereich -->
             <div class="border-t pt-6">
@@ -1129,6 +1131,22 @@ function renderCatalogItem(question) {
 /**
  * Utility-Funktionen
  */
+
+/**
+ * Prüft ob eine Frage tatsächlich Materialien hat
+ * @param {object} question - Frage-Objekt
+ * @returns {boolean} true wenn Materialien vorhanden sind
+ */
+function hasMaterials(question) {
+    // Prüfe auf verschiedene Arten von Materialien
+    const hasImages = question.images && question.images.length > 0;
+    const hasMaterials = question.materials && question.materials.length > 0;
+    const hasUserImage = question._image && question._image.kind === 'user';
+    const hasAssetImage = question._image && question._image.kind === 'asset';
+    const hasStubImage = question._image && question._image.kind === 'stub' && question._image.stubKind;
+    
+    return hasImages || hasMaterials || hasUserImage || hasAssetImage || hasStubImage;
+}
 
 function renderStatCard(title, value, colorClass, subtitle = '') {
     return `

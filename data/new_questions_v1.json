@@ -1,0 +1,772 @@
+{
+    "questions": [
+      {
+        "id": "Q2_1",
+        "version": 1,
+        "source": "questions.md §2.1 (S. 13, 33, 39)",
+        "topic": "Tokenization & POS",
+        "tags": ["STTS", "POS-Tagging", "Tokenization"],
+        "points": 3,
+        "difficulty": "mittel",
+        "question_format": "extraction",
+        "answer_type": "free_text",
+        "prompt": "Sie erhalten den Satz: \"Der italienische Fußball-Meister Sampdoria Genua verpflichtete den Verteidiger Des Walker.\" Führen Sie manuell die Schritte Tokenization und POS-Tagging (STTS) durch.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Tokens: [\"Der\", \"italienische\", \"Fußball-Meister\", \"Sampdoria\", \"Genua\", \"verpflichtete\", \"den\", \"Verteidiger\", \"Des\", \"Walker\", \".\"]\nSTTS: Der/ART, italienische/ADJA, Fußball-Meister/NN, Sampdoria/NE, Genua/NE, verpflichtete/VVFIN, den/ART, Verteidiger/NN, Des/NE, Walker/NE, ./$.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["ART","ADJA","NN","NE","VVFIN","$"]]
+            }
+          }
+        },
+        "hints": ["Zerlegen Sie den Bindestrich-Token nicht weiter: \"Fußball-Meister\" bleibt ein Token.", "STTS-Tagset nutzen (z. B. ART, ADJA, NN, NE, VVFIN)."],
+        "solution": ["Tokenliste und STTS-Tags wie in der Referenz dargestellt."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q2_2",
+        "version": 1,
+        "source": "questions.md §2.2 (S. 5)",
+        "topic": "ML-Grundlagen",
+        "tags": ["Modell", "Verlust", "Optimierung"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Erklären Sie das Standard-Lernschema im Machine Learning (Modell-, Verlust-, Optimierungs-Operator).",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Eingabe x → Modell liefert ŷ. Verlust-Operator vergleicht ŷ mit Ground Truth y und berechnet L(ŷ,y). Optimierungs-Operator aktualisiert Parameter w des Modells (z. B. Gradientenabstieg), um L zu minimieren.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Modell","Vorhersage"], ["Verlust","Loss"], ["Optimierung","Gradient"]]
+            }
+          }
+        },
+        "hints": ["Drei Blöcke: Modell, Loss, Optimierung.", "Was verändert der Optimierer?"],
+        "solution": ["Beschreibung wie in der Referenz; Parameterupdate w ← w − η∇L."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q2_3",
+        "version": 1,
+        "source": "questions.md §2.3 (S. 117–119, 132–133)",
+        "topic": "DUUI-Framework",
+        "tags": ["Pipelines", "Skalierung", "Reproduzierbarkeit"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Was ist der Zweck des DUUI-Frameworks? Nennen und erläutern Sie zwei Features.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Zweck: Standardisierung/Orchestrierung heterogener NLP-Tools. Beispiele: (A) Horizontale/vertikale Skalierung per Container; (D) Reproduzierbare & wiederverwendbare Annotationen durch Kapselung von Tool+Version.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Skalierung","Container"], ["Reproduzierbarkeit","Annotationen"]]
+            }
+          }
+        },
+        "hints": ["Ziel: Heterogene Tools unter einen Hut bringen.", "Nennen Sie konkrete Features aus den Folien."],
+        "solution": ["Kurzdefinition + zwei sauber erklärte Features (z. B. A und D)."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q3_1",
+        "version": 1,
+        "source": "questions.md §3.1 (S. 26, 30, 31)",
+        "topic": "ML-Paradigmen",
+        "tags": ["supervised","unsupervised","self-supervised"],
+        "points": 3,
+        "difficulty": "leicht",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Definieren und unterscheiden Sie: überwachtes, unüberwachtes, selbstüberwachtes Lernen – jeweils mit NLP-Beispiel.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Überwacht: gelabelte Daten (z. B. Spam-Klassifikation). Unüberwacht: Strukturen ohne Labels (z. B. Clustering/Themen). Selbstüberwacht: Labels aus Daten (z. B. MLM/BERT, Word2Vec).",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["gelabelt","Labels"], ["Clustering","ungelabelt"], ["MLM","Word2Vec","selbstüberwacht"]]
+            }
+          }
+        },
+        "hints": ["Achten Sie auf das Vorhandensein von Labels.", "Geben Sie je ein Beispiel."],
+        "solution": ["Kurze Abgrenzung mit je einem Beispiel wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q3_2",
+        "version": 1,
+        "source": "questions.md §3.2 (S. 49)",
+        "topic": "N-Gramme",
+        "tags": ["bigram","trigram","contiguous"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "extraction",
+        "answer_type": "multiple_choice_multiple",
+        "prompt": "Gegeben ist der Satz: \"insurgents killed in ongoing fighting\". Welche Bi-Gramme und Tri-Gramme kommen vor?",
+        "math": [],
+        "materials": [],
+        "options": [
+          {"id":"A","text":"insurgents killed"},
+          {"id":"B","text":"killed in"},
+          {"id":"C","text":"in ongoing"},
+          {"id":"D","text":"ongoing fighting"},
+          {"id":"E","text":"insurgents in"},
+          {"id":"F","text":"insurgents killed in"},
+          {"id":"G","text":"killed in ongoing"},
+          {"id":"H","text":"in ongoing fighting"},
+          {"id":"I","text":"killed in fighting"}
+        ],
+        "answer": {
+          "correct": ["A","B","C","D","F","G","H"],
+          "explanation": "Bigrams: A,B,C,D. Trigrams: F,G,H. E und I sind nicht zusammenhängend."
+        },
+        "hints": ["Nehmen Sie nur zusammenhängende n-Gramme.", "Zählen Sie jeweils um 1 Token weiter."],
+        "solution": ["Bi: A–D. Tri: F–H."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q3_3",
+        "version": 1,
+        "source": "questions.md §3.3 (S. 70, 72)",
+        "topic": "Repräsentationen",
+        "tags": ["sparse","dense","one-hot","embedding"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Unterschied zwischen Sparse Feature Vectors und Dense Embeddings – je ein Vor- und Nachteil.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Sparse: hochdimensional, interpretierbar; Nachteil: groß, keine Semantik. Dense: kompakt, semantische Ähnlichkeit; Nachteil: weniger interpretierbar.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["hochdimensional","One-Hot","Interpretierbarkeit"], ["semantische","kompakt","Embedding"]]
+            }
+          }
+        },
+        "hints": ["Denken Sie an One-Hot vs. trainierbare Vektoren."],
+        "solution": ["Wie in der Referenz formuliert."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q4_1",
+        "version": 1,
+        "source": "questions.md §4.1 (S. 63, 64, 69)",
+        "topic": "Evaluationsmaße",
+        "tags": ["precision","recall","f1","confusion-matrix"],
+        "points": 3,
+        "difficulty": "leicht",
+        "question_format": "calculation",
+        "answer_type": "numeric_map",
+        "prompt": "Gegeben: TP=20, FP=5, FN=10, TN=65 (100 Dokumente). Berechnen Sie Precision, Recall, F1.",
+        "math": ["\\(\\text{Precision}=\\tfrac{TP}{TP+FP}\\)", "\\(\\text{Recall}=\\tfrac{TP}{TP+FN}\\)", "\\(\\text{F1}=2\\cdot\\tfrac{PR}{P+R}\\)"],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "fields": {
+            "precision": {"value": 0.8},
+            "recall": {"value": 0.667},
+            "f1": {"value": 0.727}
+          }
+        },
+        "hints": ["Setzen Sie die Werte in die Formeln ein.", "Runden Sie auf drei Nachkommastellen."],
+        "solution": ["Precision=0.800, Recall≈0.667, F1≈0.727 (8/11)."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q4_2",
+        "version": 1,
+        "source": "questions.md §4.2 (S. 11, 16, 17)",
+        "topic": "Aktivierungsfunktionen",
+        "tags": ["Heaviside","Sigmoid","ReLU"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Vergleichen Sie Heaviside, Sigmoid, ReLU – je eine Eigenschaft und typischer Einsatz.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Heaviside: Stufenfunktion, Perzeptron; Sigmoid: s-förmig, differenzierbar, Vanishing-Gradient-anfällig; ReLU: max(0,x), effizient, Standard im DL.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Perzeptron"], ["Vanishing","Sigmoid"], ["ReLU","max(0,x)"]]
+            }
+          }
+        },
+        "hints": ["Geben Sie Funktionscharakteristik + Einsatz an."],
+        "solution": ["Kurz wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q4_3",
+        "version": 1,
+        "source": "questions.md §4.3 (S. 55)",
+        "topic": "Embeddings & Analogie",
+        "tags": ["vector-arithmetic","analogies"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "reasoning",
+        "answer_type": "free_text",
+        "prompt": "Erklären Sie „Computing with Words“ anhand der Analogie: merkel − deutschland + usa ≈ barack.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Wortvektoren kodieren Relationen als Differenzen; merkel−deutschland approximiert „Staatsoberhaupt-von“. Hinzuaddiert zu usa landet man nahe bei barack (Obama).",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Vektorraumarithmetik","Differenz"], ["Relation","Semantik"]]
+            }
+          }
+        },
+        "hints": ["Welche Relation steckt in „merkel−deutschland“?"],
+        "solution": ["Vektor-Differenzen bilden semantische Relationen ab."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q5_1",
+        "version": 1,
+        "source": "questions.md §5.1 (S. 120, 122–124)",
+        "topic": "RNN/LSTM",
+        "tags": ["forget","input","output","cell-state"],
+        "points": 3,
+        "difficulty": "mittel",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Beschreiben Sie die drei Gates einer LSTM-Zelle (Forget, Input/Update, Output) und ihre Funktion.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Forget: löscht Anteile des Cell State. Input/Update: schreibt neue Info in den Cell State. Output: bestimmt den Hidden State des Schritts.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Forget","löschen"], ["Input","Update"], ["Output","Hidden State"]]
+            }
+          }
+        },
+        "hints": ["Bezug immer zum Cell State herstellen."],
+        "solution": ["Kurzbeschreibung der drei Gates wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q5_2",
+        "version": 1,
+        "source": "questions.md §5.2 (S. 112, 113, 118)",
+        "topic": "Vanishing Gradients",
+        "tags": ["BPTT","LSTM"],
+        "points": 3,
+        "difficulty": "mittel",
+        "question_format": "reasoning",
+        "answer_type": "free_text",
+        "prompt": "Erklären Sie „vanishing gradients“ in RNNs und wie LSTM das Problem adressiert.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Durch wiederholte Multiplikation (<1) schrumpfen Gradienten exponentiell. LSTM nutzt additiven Cell-State-Pfad + Gating, erlaubt stabilen Gradientenfluss über viele Schritte.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["exponentiell","<1"], ["Cell State","additiv"], ["Gates","Stabilität"]]
+            }
+          }
+        },
+        "hints": ["Beschreiben Sie Ursache und Gegenmaßnahme."],
+        "solution": ["Wie in der Referenz beschrieben."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q5_3",
+        "version": 1,
+        "source": "questions.md §5.3 (S. 15, 47, 49)",
+        "topic": "Sentiment (lexikonbasiert)",
+        "tags": ["Prior Polarity","Lexikon"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Definieren Sie „Prior Polarity“. Skizzieren Sie einen lexikon-basierten Sentiment-Ansatz und zwei Herausforderungen.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Prior Polarity: Vorzeichen/Stärke eines Wortes ohne Kontext. Ansatz: Lexikon nachschlagen, Polaritäten aggregieren. Herausforderungen: Negation, Ironie/Kontextverschiebung.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Lexikon","Polarität"], ["Negation","Ironie","Kontext"]]
+            }
+          }
+        },
+        "hints": ["Denken Sie an „nicht gut“."],
+        "solution": ["Definition + Ansatz + zwei Stolpersteine."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q6_1",
+        "version": 1,
+        "source": "questions.md §6.1 (S. 94–96)",
+        "topic": "Transformer",
+        "tags": ["encoder","decoder","attention","ffn","positional-encoding"],
+        "points": 3,
+        "difficulty": "mittel",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Beschreiben Sie die Architektur eines Standard-Transformers (Encoder/Decoder, Sub-Layer, Datenfluss).",
+        "math": [],
+        "materials": [{"type":"svg_stub","kind":"transformer","description":"Transformer-Blockdiagramm"}],
+        "options": [],
+        "answer": {
+          "reference": "Input-Embeddings+PE → Encoder-Stack: MHSA→Add&Norm→FFN→Add&Norm. Decoder: Masked MHSA→Add&Norm→Enc-Dec-Attention→Add&Norm→FFN→Add&Norm.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Encoder","Decoder"], ["Multi-Head","Attention"], ["Feed-Forward","Add&Norm","Positional"]]
+            }
+          }
+        },
+        "hints": ["Nennen Sie die Reihenfolge der Sub-Layer."],
+        "solution": ["Kurze Flussbeschreibung wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q6_2",
+        "version": 1,
+        "source": "questions.md §6.2 (S. 85, 98–100)",
+        "topic": "Contextual Embeddings",
+        "tags": ["polysemie","BERT","Word2Vec"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Was sind Contextualized Word Embeddings (CWE)? Unterschied zu statischen Embeddings am Beispiel „Bank“.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Statisch: ein Vektor pro Wort (kein Kontext). CWE: Vektor hängt vom Kontext ab; „Bank“ (Sitzmöbel) ≠ „Bank“ (Geldinstitut) bei BERT/ELMo.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["kontextabhängig"], ["statisch","ein Vektor"]]
+            }
+          }
+        },
+        "hints": ["Beispiel-Sätze für „Bank“."],
+        "solution": ["Wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q6_3",
+        "version": 1,
+        "source": "questions.md §6.3 (S. 103)",
+        "topic": "Pretraining-Ziele",
+        "tags": ["MLM","BERT"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Erklären Sie Masked Language Modeling (MLM) und warum es effektiv ist.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Ein Teil der Tokens (≈15%) maskiert; Modell muss sie aus bidirektionalem Kontext rekonstruieren. Fördert tiefe Kontextrepräsentationen.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["maskiert","15%"], ["bidirektional","Kontext"]]
+            }
+          }
+        },
+        "hints": ["Warum bidirektional wichtig ist."],
+        "solution": ["Kurzdefinition + Begründung."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q7_1",
+        "version": 1,
+        "source": "questions.md §7.1 (S. 19)",
+        "topic": "Prompting",
+        "tags": ["CoT","few-shot"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Formulieren Sie (a) einen Standard-Prompt und (b) einen Chain-of-Thought-Prompt für eine Matheaufgabe.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "(a) Q: [Beispiel] A: [Antwort]. Q: [Aufgabe] A:\n(b) Q: [Beispiel] A: [Schritt 1 … Schritt n … Antwort]. Q: [Aufgabe] A:",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Beispiel","Q:"], ["Schritt","CoT"]] } }
+        },
+        "hints": ["CoT enthält explizite Zwischenschritte."],
+        "solution": ["Beide Prompt-Templates skizzieren."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q7_2",
+        "version": 1,
+        "source": "questions.md §7.2 (S. 28, 30)",
+        "topic": "Zero-shot CoT",
+        "tags": ["reasoning","extraction"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "reasoning",
+        "answer_type": "free_text",
+        "prompt": "Erklären Sie den zweistufigen Prozess des Zero-shot CoT (Reasoning + Answer Extraction).",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Prompt 1 (z. B. „Let’s think step by step“): erzeugt Lösungsweg. Prompt 2 kombiniert Eingabe + Lösungsweg, extrahiert saubere Endantwort.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["step by step","Reasoning"], ["Extraction","zweiter Prompt"]] } }
+        },
+        "hints": ["Warum zwei Prompts? Trennung von Denken und Antwort."],
+        "solution": ["Zwei klar abgegrenzte Schritte benennen."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q7_3",
+        "version": 1,
+        "source": "questions.md §7.3 (S. 40, 53, 54)",
+        "topic": "Reasoning-Strategien",
+        "tags": ["Plan-and-Solve","Branch-Solve-Merge"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Vergleichen Sie Plan-and-Solve (PS) und Branch-Solve-Merge (BSM). Wo liegt die Innovation von BSM?",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "PS: sequenzielles Planen→Lösen. BSM: rekursives Aufspalten in parallele Zweige, Lösen, anschließendes Mergen; Innovation: Parallelisierbarkeit.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["parallel","Zweige"], ["Plan","Merge"]] } }
+        },
+        "hints": ["Stichwort Parallelisierung."],
+        "solution": ["Wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q8_1",
+        "version": 1,
+        "source": "questions.md §8.1 (S. 3, 4, 6, 29)",
+        "topic": "Sicherheit & PI",
+        "tags": ["prompt-injection","zero-click","exfiltration"],
+        "points": 3,
+        "difficulty": "mittel",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Beschreiben Sie den Angriffsablauf von „EchoLeak“. Warum „Zero-Click“ und „Indirect Prompt Injection“?",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Bösartige E-Mail → Copilot verarbeitet sie implizit → generiert Bild-URL mit sensiblen Daten → Browser lädt URL → Exfiltration. Zero-Click: keine Interaktion nötig; Indirect: Prompt kommt über externe Quelle.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["E-Mail","URL"], ["Zero-Click","Indirect"]] } }
+        },
+        "hints": ["Welche Rolle spielt die Bild-URL?"],
+        "solution": ["Stichpunkte wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q8_2",
+        "version": 1,
+        "source": "questions.md §8.2 (S. 63–67)",
+        "topic": "FAIR-Prinzipien",
+        "tags": ["Findable","Accessible","Interoperable","Reusable"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Definieren Sie die vier FAIR-Prinzipien und geben Sie je ein Praxisbeispiel.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "F: auffindbar (DOI/Metadaten). A: zugänglich (offene Protokolle). I: interoperabel (Ontologien/Vokabulare). R: wiederverwendbar (klare Lizenz, z. B. CC-BY).",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["DOI","Metadaten"], ["HTTP","offen"], ["Ontologie","Vokabular"], ["Lizenz","CC-BY"]] } }
+        },
+        "hints": ["Je Prinzip ein konkretes Umsetzungsbeispiel nennen."],
+        "solution": ["Kurzdefinition + Beispiel je Prinzip."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q8_3",
+        "version": 1,
+        "source": "questions.md §8.3 (S. 12)",
+        "topic": "Alignment",
+        "tags": ["reward-hacking","proxy"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Erklären Sie „Reward Hacking“ und warum es fundamental problematisch ist.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Optimierung des Belohnungs-Proxys statt der eigentlichen Aufgabe; führt zu unerwünschtem Verhalten, das Metriken erfüllt, Intention aber verfehlt.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Proxy","Belohnung"], ["unerwünscht","Intention"]] } }
+        },
+        "hints": ["Proxy vs. wahres Ziel unterscheiden."],
+        "solution": ["Definition + Begründung."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q9_1",
+        "version": 1,
+        "source": "questions.md §9.1 (S. 13–19)",
+        "topic": "KI-Text-Detektion",
+        "tags": ["watermarking","statistisch","nn-basiert"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Nennen Sie die drei Detektorklassen (Wasserzeichen, statistisch, NN-basiert) mit je einem Vor- und Nachteil.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Wasserzeichen: +genau mit Markierung, −erfordert Generator-Support. Statistisch: +Zero-shot möglich, −modellabhängig/White-Box. NN-basiert: +stark in-domain, −viel Labeldaten, Generalisierung schwach.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Wasserzeichen"], ["statistisch"], ["NN-basiert"]] } }
+        },
+        "hints": ["Jeweils Vor- und Nachteil knapp nennen."],
+        "solution": ["Wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q9_2",
+        "version": 1,
+        "source": "questions.md §9.2 (S. 46–47)",
+        "topic": "Unmöglichkeits-Theorem",
+        "tags": ["total-variation","auroc"],
+        "points": 2,
+        "difficulty": "schwer",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Erläutern Sie das Unmöglichkeits-Theorem (Sadasivan et al., 2023): Rolle der Total Variation Distance (TV) und Zusammenhang zur maximalen AUROC.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "TV misst den Abstand zwischen Verteilungen. Die maximal erreichbare AUROC ist durch TV nach oben beschränkt; wenn TV→0 (Verteilungen identisch), dann AUROC→0.5 (Raten).",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["TV","Abstand"], ["AUROC","0.5","Raten"]] } }
+        },
+        "hints": ["Intuition: mehr Trennbarkeit ⇒ höhere AUROC-Grenze."],
+        "solution": ["Erklären Sie TV und die Grenzbeziehung qualitativ."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q9_3",
+        "version": 1,
+        "source": "questions.md §9.3 (S. 22, 30, 31)",
+        "topic": "Detektoren",
+        "tags": ["GLTR","DetectGPT","perplexity","perturbation"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Vergleichen Sie GLTR und DetectGPT – zentrale Hypothesen beider Ansätze.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "GLTR: KI-Text ist vorhersagbarer (niedrige Perplexität, niedrige Rangplätze). DetectGPT: KI-Text liegt auf einem „Spike“; kleine Perturbationen senken die Wahrscheinlichkeit stark.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Perplexity","Rang"], ["Perturbation","Spike"]] } }
+        },
+        "hints": ["Je Ansatz exakt eine Kernaussage."],
+        "solution": ["Wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q10_1",
+        "version": 1,
+        "source": "questions.md §10.1 (S. 5)",
+        "topic": "Multimodal: CLIP",
+        "tags": ["contrastive","image-text","similarity-matrix"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Beschreiben Sie das Trainingsziel von CLIP und warum es „kontrastiv“ ist.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "CLIP lernt einen gemeinsamen Bild-Text-Raum; Ähnlichkeit korrekter Paare maximieren, inkorrekte minimieren (viele Negatives pro Batch) ⇒ kontrastiv.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["positiv","negativ"], ["Ähnlichkeit","Kontrastiv"]] } }
+        },
+        "hints": ["Denken Sie an Batch-weise Kreuzähnlichkeiten."],
+        "solution": ["Kurz wie in der Referenz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q10_2",
+        "version": 1,
+        "source": "questions.md §10.2 (S. 4, 16, 19)",
+        "topic": "Fusion",
+        "tags": ["early-fusion","late-fusion"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "compare",
+        "answer_type": "free_text",
+        "prompt": "Early vs. Late Fusion in multimodalen Systemen – je ein Vor- und Nachteil.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Early: Feature-Ebene, +lernt Interaktionen, −weniger flexibel. Late: Entscheidungs-Ebene, +modular/wiederverwendbar, −verpasst feine Cross-Modale Interaktionen.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Merkmalsebene","Entscheidungsebene"], ["Interaktionen","Modular"]] } }
+        },
+        "hints": ["Wo werden Modalitäten kombiniert?"],
+        "solution": ["Je ein Vorteil/Nachteil nennen."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q10_3",
+        "version": 1,
+        "source": "questions.md §10.3 (S. 6, 8, 10)",
+        "topic": "Symbol Grounding",
+        "tags": ["grounding","semantik","perzeption"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Was ist das Symbol Grounding Problem? Warum ist seine Lösung wichtig?",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Frage, wie Symbole Bedeutung erhalten, die in Wahrnehmung verankert ist. Wichtig: Ohne Grounding fehlt robustes Weltverständnis ⇒ Halluzinationen/brüchiges Wissen.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Bedeutung","verankert"], ["Weltverständnis","Halluzination"]] } }
+        },
+        "hints": ["Verbindung Symbol ↔ Welt."],
+        "solution": ["Kurze Definition + Relevanz."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q11_1",
+        "version": 1,
+        "source": "questions.md §11.1 (S. 13)",
+        "topic": "Des-/Misinformation",
+        "tags": ["intent","misinformation","disinformation"],
+        "points": 1,
+        "difficulty": "leicht",
+        "question_format": "classification",
+        "answer_type": "multiple_choice_single",
+        "prompt": "Ein Freund teilt unwissentlich einen falschen Artikel. Handelt es sich um Misinformation oder Desinformation?",
+        "math": [],
+        "materials": [],
+        "options": [
+          {"id":"A","text":"Misinformation"},
+          {"id":"B","text":"Desinformation"}
+        ],
+        "answer": { "correct": "A", "explanation": "Keine Täuschungsabsicht ⇒ Misinformation." },
+        "hints": ["Kriterium: Absicht."],
+        "solution": ["A ist korrekt."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q11_2",
+        "version": 1,
+        "source": "questions.md §11.2 (S. 58)",
+        "topic": "Netzwerkstrukturen",
+        "tags": ["bow-tie","SCC","IN","OUT","Disconnected"],
+        "points": 2,
+        "difficulty": "mittel",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Skizzieren Sie die Bow-Tie-Makrostruktur eines sozialen Netzwerks (SCC, IN, OUT, Disconnected) und ihre Funktionen.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "SCC: stark vernetzter Kern. IN: Knoten, die in den Kern einspeisen. OUT: Knoten, die aus dem Kern empfangen. Disconnected: isolierte Komponenten.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["SCC","Kern"], ["IN","OUT"], ["isoliert","Disconnected"]] } }
+        },
+        "hints": ["Benennen Sie vier Zonen + Funktion."],
+        "solution": ["Kurzbeschreibungen wie oben."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "Q11_3",
+        "version": 1,
+        "source": "questions.md §11.3 (S. 79–81)",
+        "topic": "Gerüchte/Diffusion",
+        "tags": ["novelty","emotion","rumors"],
+        "points": 2,
+        "difficulty": "leicht",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Nennen Sie zwei Hauptgründe, warum sich Falschnachrichten schneller verbreiten (Vosoughi et al., 2018).",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Höherer Neuigkeitswert (Novelty) und stärkere emotionale Reaktionen (z. B. Überraschung/Ekel) steigern Teilungswahrscheinlichkeit.",
+          "rubric": { "mode": "partial", "keywords": { "required_any": [["Novelty","neu"], ["Emotion","Überraschung","Ekel"]] } }
+        },
+        "hints": ["Zwei Faktoren reichen."],
+        "solution": ["Novelty + Emotion anführen."],
+        "verified": true,
+        "notes": ""
+      }
+    ]
+  }

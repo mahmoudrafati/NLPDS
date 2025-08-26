@@ -1,0 +1,264 @@
+{
+    "questions": [
+      {
+        "id": "EX1_Q1_GLM_Translation",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Generative LMs",
+        "tags": ["GLM", "Prompting", "Translation", "In-Context Learning"],
+        "points": 10,
+        "difficulty": "mittel",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Sie haben Zugriff auf ein großes Generative Language Model (GLM), das auf Next-Token-Prediction trainiert wurde. Auf Basis eines kleinen Datensatzes von Satzpaaren (Quelle→Ziel) sollen Sie eine automatische Übersetzung mit Prompting implementieren. Entwickeln Sie einen konkreten Ansatz (Datenaufbereitung, Prompt-Design, Decoding/Evaluation) und erläutern Sie, wie Sie das GLM einsetzen.",
+        "math": [],
+        "materials": [{"type":"svg_stub","kind":"transformer","description":"Prompting-Pipeline"}],
+        "options": [],
+        "answer": {
+          "reference": "1) Mini-Parallelkorpus bereinigen (Sprachkennung, Dedup, Named-Entity-Passthrough-Regeln). 2) Prompt als Few-shot-Template mit 5–20 repräsentativen Beispielen (Domänenmix, kurze+lange Sätze), Format: \"Translate to <LANG>:\\nQ: <src>\\nA: <tgt>\"; anschließend neue Q/A anhängen. 3) Constrained decoding (z. B. verbotene Zeichen, Zahlen/Entity-Passthrough), Temperature niedrig, Top-p 0.9, Länge begrenzen. 4) Postprocessing (Detokenisierung, Groß-/Kleinschreibung, Zahl-/Einheiten-Passthrough). 5) Evaluation auf Holdout (BLEU/chrF, manuelle Fehleranalyse: Wortstellung, Fachtermini). 6) Iterative Prompt-Verbesserung: Beispiele austauschen, Fehlermuster adressieren (Polysemie, Satzzeichen). Optional: Self-consistency (n Kandidaten → Mehrheitsvotum) oder n-best reranking mit Qualitätshinweisen.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [
+                ["few-shot","in-context","Beispiele"],
+                ["decoding","temperature","top-p","constraints"],
+                ["evaluation","BLEU","chrF","holdout"]
+              ],
+              "nice_to_have": ["entity passthrough","self-consistency","error analysis"]
+            }
+          }
+        },
+        "hints": ["Wählen Sie Beispiele, die typische Strukturen abdecken (Fragen/Negation/Zahlen).", "Halten Sie die Temperatur niedrig für deterministische Übersetzungen."],
+        "solution": ["Skizzierte 6-Schritt-Pipeline mit konkretem Prompt-Template und Evaluationsmaßen."],
+        "verified": true,
+        "notes": "Aus dem Chat: 10 Punkte Aufgabe Übersetzung mit GLM."
+      },
+      {
+        "id": "EX1_Q2_BERT_Generative",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "BERT & Generativität",
+        "tags": ["BERT", "MLM", "Autoregressiv"],
+        "points": 10,
+        "difficulty": "mittel",
+        "question_format": "comprehension",
+        "answer_type": "multiple_choice_single",
+        "prompt": "Kann BERT für Generative Language Modelling (freies Textgenerieren) verwendet werden?",
+        "math": [],
+        "materials": [{"type":"svg_stub","kind":"transformer","description":"Encoder vs. Decoder"}],
+        "options": [
+          {"id":"A","text":"Ja, BERT ist ein kausales (autoregressives) LM und generiert Texte links→rechts."},
+          {"id":"B","text":"Nicht direkt: BERT ist ein bidirektionales Masked-LM; Generieren erfordert z. B. autoregressive Modelle oder Encoder-Decoder."},
+          {"id":"C","text":"Nur wenn man alle Self-Attention-Masken entfernt."},
+          {"id":"D","text":"Nein, BERT kann überhaupt keinen Text erzeugen."}
+        ],
+        "answer": {
+          "correct": "B",
+          "explanation": "Klassisches BERT ist ein Masked LM (bidirektional). Man kann iterative Maskfüllung nutzen, aber üblich sind autoregressive (GPT) oder Encoder-Decoder (T5) Modelle."
+        },
+        "hints": ["Denken Sie an Trainingsziel: Masked LM vs. Next-Token."],
+        "solution": ["B ist korrekt. A/C falsch, D zu absolut."],
+        "verified": true,
+        "notes": ""
+      },
+      {
+        "id": "EX1_Q3_Weak_AI",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "KI-Grundlagen",
+        "tags": ["Weak AI","Narrow AI"],
+        "points": 9,
+        "difficulty": "leicht",
+        "question_format": "definition",
+        "answer_type": "free_text",
+        "prompt": "Nennen Sie drei Gründe, warum die Lösung einer konkreten KI-/Mathe-Aufgabe als „schwache KI“ (Narrow AI) gilt.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "1) Eng begrenzte Zielaufgabe/Domain (keine Generalität), 2) Kein Bewusstsein/Verstehen – rein funktionale Performanz, 3) Kaum Transfer außerhalb Trainings-/Prompt-Domäne (fehlende Robustheit/Out-of-Distribution). Optional: keine eigenständigen Ziele/Intentionalität.",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["eng","spezifisch","narrow"], ["Bewusstsein","Verstehen"], ["Transfer","Generalisation","OOD"]]
+            }
+          }
+        },
+        "hints": ["Kontrast zu „starker KI“."],
+        "solution": ["Drei präzise Punkte wie in der Referenz."],
+        "verified": true,
+        "notes": "Chat: ~9 Punkte."
+      },
+      {
+        "id": "EX1_Q4a_Skipgram_POS",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Skip-Gramme",
+        "tags": ["n-gram","skip-gram","POS"],
+        "points": 5,
+        "difficulty": "mittel",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Gegeben sei die Standard-Definition von m-Skip-n-Grammen mit maximalem Abstand k auf einer Tokenfolge T. Modifizieren Sie die Formel so, dass nur Verben und Adjektive erfasst werden.",
+        "math": [
+          "Ursprung: \\(G_{k,n}(T)=\\{(t_{i_1},...,t_{i_n})\\mid 1\\le i_1<...<i_n\\le |T|,\\; \\forall j: 0\\le (i_{j+1}-i_j-1)\\le k\\}\\)"
+        ],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Fügen Sie eine POS-Filterung hinzu: \\(G^{\\text{V/ADJ}}_{k,n}(T)=\\{(t_{i_1},...,t_{i_n})\\in G_{k,n}(T)\\mid \\forall j:\\; POS(t_{i_j})\\in\\{\\text{VERB},\\text{ADJ}\\}\\}\\).",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["POS","VERB","ADJ"], ["Filter","Einschränkung"]]
+            }
+          }
+        },
+        "hints": ["Erweitern Sie die Mengenbedingung um einen POS-Prädikatsterm."],
+        "solution": ["Formale Bedingung über POS in {VERB, ADJ}."],
+        "verified": true,
+        "notes": "Teil a) ~5 Punkte laut Chat."
+      },
+      {
+        "id": "EX1_Q4b_Skipgram_percent",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Skip-Gramme",
+        "tags": ["n-gram","skip-gram","variable skip"],
+        "points": 10,
+        "difficulty": "mittel",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Ändern Sie die Skip-Gramm-Formel so, dass anstelle eines festen k nun ein Prozentsatz p∈(0,1) der Token von T innerhalb der Skips liegen darf.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Definieren Sie \\(k_p = \\lfloor p\\cdot(|T|-1)\\rfloor\\). Dann \\(G^{(p)}_{n}(T)=\\{(t_{i_1},...,t_{i_n})\\mid 1\\le i_1<...<i_n\\le |T|,\\; \\forall j: 0\\le (i_{j+1}-i_j-1)\\le k_p\\}\\). Alternativ pro Tupel die Summe aller Skips \\(\\sum_j (i_{j+1}-i_j-1)\\le k_p\\).",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["k_p","floor"], ["p","|T|"], ["Summe der Skips"]]
+            }
+          }
+        },
+        "hints": ["Beziehen Sie |T| in die Definition von k ein."],
+        "solution": ["k durch k_p ersetzen; optional Summenvariante."],
+        "verified": true,
+        "notes": "Teil b) ~10 Punkte laut Chat."
+      },
+      {
+        "id": "EX1_Q4c_Skipgram_tree",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Skip-Gramme",
+        "tags": ["dependency tree","graph distance","skip-gram"],
+        "points": 10,
+        "difficulty": "schwer",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Modifizieren Sie die Definition, sodass anstelle linearer Tokenabstände Baumabstände (z. B. im Dependenzbaum) verwendet werden.",
+        "math": [],
+        "materials": [{"type":"svg_stub","kind":"transformer","description":"Baumdistanz-Skizze"}],
+        "options": [],
+        "answer": {
+          "reference": "Sei \\(G=(V,E)\\) der Dependenzbaum über T und \\(d_G(u,v)\\) die Pfadlänge. Dann \\(G^{\\text{tree}}_{k,n}(T)=\\{(t_{i_1},...,t_{i_n})\\mid 1\\le i_1<...<i_n\\le |T|,\\; \\forall j:\\; d_G(t_{i_j},t_{i_{j+1}})\\le k\\}\\). Optional: Summen-Constraint \\(\\sum_j d_G(\\cdot)\\le k\\).",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Dependenzbaum","d_G"], ["Pfadlänge","Graphdistanz"], ["k-Schranke"]]
+            }
+          }
+        },
+        "hints": ["Ersetzen Sie linearen Abstand durch Pfadlänge im Baum."],
+        "solution": ["Formale Definition mit d_G(u,v) ≤ k."],
+        "verified": true,
+        "notes": "Teil c) ~10 Punkte laut Chat."
+      },
+      {
+        "id": "EX1_Q5_FakeNews_Detection",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Fake News Detection",
+        "tags": ["classification","pipeline","evaluation","imbalance"],
+        "points": 10,
+        "difficulty": "mittel",
+        "question_format": "design",
+        "answer_type": "free_text",
+        "prompt": "Skizzieren Sie eine Pipeline für Fake-News-Detection (Text). Gehen Sie auf Daten, Features/Modelle, Trainings-Setup und Evaluationsmetriken ein. Nennen Sie typische Fallstricke.",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Daten: deduplizieren, Quellen-/Zeitbias markieren, Topic Balance; Split zeitlich (train < test) zur Vermeidung von Leaks. Features/Modelle: Baseline TF-IDF+LogReg, dann Fine-tuning (BERT/DeBERTa); evtl. claim-aware Features. Training: Klassengewichte/Resampling, Early Stop, Calibration. Evaluation: Precision-Recall/F1 (macro), AUROC, Confusion-Matrix; Domänen-Robustheit (Cross-Source/Test-Time-Shift). Fallstricke: Datenlecks (Quelle/URL), Clickbait-Artefakte, Topic-Leakage, Imbalance.",
+          "rubric": {
+              "mode": "partial",
+              "keywords": {
+                "required_any": [["TF-IDF","BERT","Fine-tuning"], ["PR/F1","AUROC","Confusion"], ["Leakage","Bias","Imbalance"]]
+              }
+          }
+        },
+        "hints": ["Denken Sie an zeitliche Splits und Klassenungleichgewicht."],
+        "solution": ["Pipeline + Metriken + zwei Fallstricke."],
+        "verified": true,
+        "notes": "Im Chat erwähnt, 10 Punkte."
+      },
+      {
+        "id": "EX1_Q6_Attention_MC",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Transformer Attention",
+        "tags": ["multi-head","masking","scaled dot-product"],
+        "points": 10,
+        "difficulty": "mittel",
+        "question_format": "comprehension",
+        "answer_type": "multiple_choice_multiple",
+        "prompt": "Welche Aussagen über (Multi-Head) Attention im Transformer sind korrekt?",
+        "math": [],
+        "materials": [{"type":"svg_stub","kind":"transformer","description":"MHA Schema"}],
+        "options": [
+          {"id":"A","text":"Mehrere Köpfe erlauben das gleichzeitige Modellieren unterschiedlicher Relationen/Subräume."},
+          {"id":"B","text":"Der Skalenfaktor in Scaled Dot-Product Attention ist \\(\\sqrt{d_{model}}\\)."},
+          {"id":"C","text":"Decoder-Self-Attention nutzt kausales Masking, um nicht in die Zukunft zu schauen."},
+          {"id":"D","text":"Bei Encoder-Decoder-Attention stammen Keys/Values aus dem Encoder, Queries aus dem Decoder."},
+          {"id":"E","text":"Alle Köpfe müssen dieselben Projektionsmatrizen teilen."}
+        ],
+        "answer": {
+          "correct": ["A","C","D"],
+          "explanation": "B falsch: skaliert wird mit \\(\\sqrt{d_k}\\). E falsch: Köpfe haben eigene Projektionen."
+        },
+        "hints": ["Erinnern Sie sich an d_k und das Masking im Decoder."],
+        "solution": ["A, C, D sind korrekt."],
+        "verified": true,
+        "notes": "Chat: Attention-Aufgabe (10 Punkte) wurde übersprungen."
+      },
+      {
+        "id": "EX1_Q7_Bonus_Threshold",
+        "version": 1,
+        "source": "chat_first_exam_2025-08-26",
+        "topic": "Prüfungsmodus",
+        "tags": ["Scoring","Bonus"],
+        "points": 0,
+        "difficulty": "leicht",
+        "question_format": "comprehension",
+        "answer_type": "free_text",
+        "prompt": "Angenommen, die Klausur hat 100 reguläre Punkte und 10 Bonuspunkte. Ab 50 Punkten gilt ‚bestanden‘. Wie beeinflusst Bonus die Bestehensgrenze?",
+        "math": [],
+        "materials": [],
+        "options": [],
+        "answer": {
+          "reference": "Die Bestehensgrenze (50) bleibt unverändert; Bonus kann Defizite ausgleichen (z. B. 45 regulär + 5 Bonus → bestanden).",
+          "rubric": {
+            "mode": "partial",
+            "keywords": {
+              "required_any": [["Bonus","bestehen","50"], ["Ausgleich","Grenze"]]
+            }
+          }
+        },
+        "hints": ["Bonus ≠ Anhebung der Grenze."],
+        "solution": ["Bonus zählt zu den erreichbaren Punkten, nicht zur Grenze."],
+        "verified": true,
+        "notes": "Meta-Frage; ohne Punkte."
+      }
+    ]
+  }

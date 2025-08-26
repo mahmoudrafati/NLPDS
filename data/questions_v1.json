@@ -1,0 +1,818 @@
+{
+  "questions": [
+    {
+      "id": "Q1",
+      "version": 1,
+      "source": "SCREENSHOT_60CCEE21-78C6-47C3-92B8-7FA6AC3F92EE.jpeg",
+      "topic": "Embeddings",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "In stark flektierenden Sprachen sollen Word-Embeddings gegenüber Formvarianten robust sein,\nohne alle Wortformen eines Lemmas zu verschmelzen. Skizzieren Sie einen Ansatz, wie Sie\nWörter über Zeichen-n-Gramme repräsentieren und daraus Wort-Embeddings bilden.",
+      "math": [
+        "$\\displaystyle \\mathbf{v}(w)=\\sum_{g\\in G(w)} \\mathbf{z}_g$"
+      ],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "Verwenden Sie **Char-n-Gramm-Embeddings** (FastText-Prinzip): Zerlegen Sie jedes Wort w in ein Set G(w)\naus überlappenden Zeichen-n-Grammen (inkl. Anfangs/Endmarker). Lernen Sie für jedes n‑Gramm g ein Vektor\nz_g. Das Wort-Embedding berechnet sich als **Summe (oder Mittel)** der zugehörigen n‑Gramm-Vektoren:\nv(w)=∑_{g∈G(w)} z_g. Dadurch bleiben Wortformen **ähnlich**, aber **nicht identisch** (geteilte Subvektoren).\nKeine reine Lemmatisierung (würde Formen gleichsetzen) und keine bloße Konkatenation (würde Dimension sprengen).",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Screenshot; in der Klausur Freitext, keine MC."
+    },
+    {
+      "id": "Q59",
+      "version": 1,
+      "source": "MC_ADDED_TOOL_2",
+      "topic": "Transformer/Attention",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_multiple",
+      "prompt": "Which statements about Multi-Head Attention are true?\n\nA) It uses several parallel attention heads.\n\nB) All heads must share the same projection matrices.\n\nC) Heads allow the model to capture different relations.\n\nD) Outputs of heads are concatenated and projected.",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "It uses several parallel attention heads."
+        },
+        {
+          "id": "B",
+          "text": "All heads must share the same projection matrices."
+        },
+        {
+          "id": "C",
+          "text": "Heads allow the model to capture different relations."
+        },
+        {
+          "id": "D",
+          "text": "Outputs of heads are concatenated and projected."
+        }
+      ],
+      "answer": {
+        "correct": [
+          "A",
+          "C",
+          "D"
+        ],
+        "explanation": "Correct: A, C, D — Multi-heads attend to different subspaces; outputs are concatenated then projected."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Multiple selection (checkboxes)."
+    },
+    {
+      "id": "Q2",
+      "version": 1,
+      "source": "SCREENSHOT_ED087468-70DC-422D-894E-0A9FC6033373.png",
+      "topic": "Sentiment Analysis",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Ein relationales Sentiment‑Tupel sei definiert als (e_x, e_y, a, s_r) mit s_r ∈ {besser, gleich, schlechter}.\nLesen Sie den Beispieltext (Smartphones X42 vs. Z23 Ultra) und geben Sie alle im Text enthaltenen relationalen\nSentiment‑Tupel an.",
+      "math": [
+        "$(e_x, e_y, a, s_r)$",
+        "$s_r \\in \\{\\mathrm{besser}, \\mathrm{gleich}, \\mathrm{schlechter}\\}$"
+      ],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "Aus dem Text ergeben sich:\n1) (Universe X42, Universe Z23 Ultra, Fotoqualität, gleich) — „grundsätzlich gleich gute Fotos“.\n2) (Universe X42, Universe Z23 Ultra, Farbnatürlichkeit, schlechter) — „Z23 Ultra zeigt natürlichere Farben“.\nSchärfe/Helligkeit werden als „stimmen überein“ beschrieben → relational „gleich“. Akku/Charging ist nicht als klarer\nVergleich zwischen X42 und Z23 Ultra formuliert → kein relationales Tupel.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Screenshot; Auswahl im Original als MC, hier Freitext."
+    },
+    {
+      "id": "Q3",
+      "version": 1,
+      "source": "SCREENSHOT_842FEDC8-C55E-497B-A618-FCC793EE214C.png",
+      "topic": "Transformer/Bias",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Gegeben sei ein Masked Language Model (MLM) wie BERT. Skizzieren Sie einen Ansatz, um nachzuweisen,\nob das Modell einen Gender‑Bias repliziert (z. B. bei Berufsrollen). Beschreiben Sie kurz Templates,\nMaskierung, Auswertung und ein Bias‑Maß.",
+      "math": [
+        "$\\text{Template: } \\_ \\text{ arbeitet als Ingenieur.}$",
+        "$\\text{Template: } \\_ \\text{ arbeitet als Krankenschwester.}$",
+        "$\\displaystyle \\Delta = P(\\text{männlich} \\mid \\text{Ingenieur}) - P(\\text{weiblich} \\mid \\text{Ingenieur})$"
+      ],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "**Bias‑Probe (Zero‑shot‑Templates):**\n1) Erstellen Sie neutrale Sätze mit einem Masken‑Slot für Namen: „[MASK] arbeitet als Ingenieur/Krankenschwester.“\n2) Lassen Sie BERTs MLM‑Head Top‑k‑Token für [MASK] vorhersagen und zählen Sie männliche vs. weibliche Namen.\n3) Erwartung: Für „Ingenieur“ treten häufiger männliche Namen auf; für „Krankenschwester“ häufiger weibliche.\n4) **Bias‑Maß:** Δ = P(männlich | Ingenieur) − P(weiblich | Ingenieur) (analog für andere Rollen). Signifikant\nvon 0 verschieden (z. B. t‑Test/Bootstrap) ⇒ Bias. Optional: Normalisieren über Namensfrequenzen und kontrollieren\nfür Kontexte, mehrere Sprachen/Berufslisten, Konfidenzintervalle berichten.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Screenshot; Freitext."
+    },
+    {
+      "id": "Q4",
+      "version": 1,
+      "source": "CHAT_GLMPROMPT_1",
+      "topic": "Maschinelle Übersetzung/Prompting",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Sie haben Zugriff auf ein großes Generative Language Model (GLM; Next‑Token‑Prediction). Entwickeln Sie einen\nPrompt‑basierten Ansatz, um eine **automatische Übersetzung** für einen kleinen Datensatz zu implementieren,\nund erläutern Sie den Ablauf (Prompt‑Design, Inferenz, Qualitätssicherung).",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "**Ansatz:** *Instruction‑/Few‑shot‑Prompting* mit striktem Format.\n- **Few‑shot‑Beispiele** aus dem kleinen Datensatz (2–10 Satzpaare) im Schema:\n  „Translate German → English. Preserve punctuation and names.\nGerman: <S>\nEnglish: <T>“.\n- **Prompt‑Schablone:** System: „You are a translation engine. Output only the translation.“\n  + Regeln: keine Erklärungen, keine Halluzinationen, Zahlen/Einheiten beibehalten.\n- **Inferenz:** Greedy/Beam (kleines Beam 3–5) für Determinismus; max_length, no_repeat_ngram ≥ 3.\n- **Post‑Checks:** Round‑trip‑Check (de→en→de), einfache Heuristiken (Anführungszeichen/Tags erhalten),\n  optional TER/BLEU auf Valid‑Subset.\n- **Feintuning light (optional):** Parameter‑Effizienz (LoRA/PEFT) auf dem kleinen Satzpaar‑Set,\n  falls das reine Prompting nicht stabil genug ist.\n- **Batching:** Satzweise; bei langen Inputs Segmentierung und Zusammensetzen.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Chat‑Gedächtnisprotokoll."
+    },
+    {
+      "id": "Q5",
+      "version": 1,
+      "source": "CHAT_BERTGEN_1",
+      "topic": "Transformer/BERT/Language Modeling",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Kann BERT für **generatives Language Modeling** verwendet werden? Begründen Sie Ihre Antwort.",
+      "math": [
+        "$\\text{MLM: } p(w_t \\mid \\text{Kontext links+rechts mit Masken})$",
+        "$\\text{AR-LM: } p(w_t \\mid w_{<t})$"
+      ],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "**Kurz:** Nicht sinnvoll als *klassisches* generatives LM.\n- **BERT** wird mit **Masked‑Language‑Modeling** (bidirektionaler Kontext) trainiert und approximiert *kein*\n  autoregressives p(w_t | w_{<t}).\n- Man *kann* mit iterativem Maskieren/Infilling Text erzeugen, das ist jedoch **ineffizient** und\n  qualitativ/steuerbar den **Decoder‑only** (GPT) oder **Encoder‑Decoder** (T5)‑Modellen unterlegen.\n- Für echtes NTP/AR‑LM sind Decoder‑only‑Modelle die passende Architektur.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Chat‑Gedächtnisprotokoll."
+    },
+    {
+      "id": "Q6",
+      "version": 1,
+      "source": "CHAT_WEAKAI_1",
+      "topic": "KI-Grundlagen",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Nennen und begründen Sie drei Gründe, warum eine KI, die einzelne Matheaufgaben löst, als **schwache (narrow) KI** gilt.",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "1) **Enger Aufgabenscope:** Optimiert für ein klar umrissenes Problem (Matheaufgaben) statt allgemeiner Intelligenz.\n2) **Kein Weltverständnis/Bewusstsein:** Manipuliert Symbole/Heuristiken, ohne semantisches Verstehen oder Intentionalität.\n3) **Begrenzte Transferfähigkeit:** Außerhalb des Trainingsregimes/Formats bricht die Leistung ein; kein breiter Common‑Sense,\n   keine langfristige Planung/Autonomie. (Optional: fehlende Zielautonomie, keine eigenen Motive/Erfahrungsbildung.)",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Chat‑Gedächtnisprotokoll."
+    },
+    {
+      "id": "Q7",
+      "version": 1,
+      "source": "CHAT_SKIPGRAM_1",
+      "topic": "Sprachmodellierung/Word2Vec",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "calculation",
+      "answer_type": "numeric",
+      "prompt": "Gegeben ist das Skip‑gram‑Ziel. Modifizieren Sie die Definition so, dass\na) nur Verben und Adjektive erfasst werden,\nb) statt eines fixen Fensters k ein Anteil p∈(0,1) der Token berücksichtigt wird,\nc) statt sequenzieller Abstände **baum‑basierte** Abstände (z. B. Dependenz‑Baum) bis k verwendet werden.",
+      "math": [
+        "$\\displaystyle \\mathcal{L}(\\theta)=\\frac{1}{T}\\sum_{t=1}^{T}\\sum_{\\substack{-k\\le j\\le k\\\\ j\\ne 0}}\\log p_\\theta(w_{t+j}\\mid w_t)$",
+        "$\\displaystyle \\mathcal{L}_a=\\frac{1}{T}\\sum_{t=1}^{T}\\mathbf{1}[\\mathrm{POS}(w_t)\\in\\{\\mathrm{VERB},\\mathrm{ADJ}\\}]\\sum_{\\substack{-k\\le j\\le k\\\\ j\\ne 0}}\\mathbf{1}[\\mathrm{POS}(w_{t+j})\\in\\{\\mathrm{VERB},\\mathrm{ADJ}\\}]\\log p_\\theta(w_{t+j}\\mid w_t)$",
+        "$\\displaystyle \\mathcal{L}_b=\\frac{1}{T}\\sum_{t=1}^{T}\\sum_{\\substack{-K\\le j\\le K\\\\ j\\ne 0}}\\log p_\\theta(w_{t+j}\\mid w_t),\\ \\ K=\\lfloor p\\cdot T\\rfloor$",
+        "$\\displaystyle \\mathcal{L}_c=\\frac{1}{T}\\sum_{t=1}^{T}\\ \\sum_{j\\in \\mathcal{N}_k(t)} \\log p_\\theta(w_{j}\\mid w_t),\\ \\ \\mathcal{N}_k(t)=\\{j\\neq t: d_{\\text{tree}}(t,j)\\le k\\}$"
+      ],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "value": 0.0
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Chat‑Gedächtnisprotokoll."
+    },
+    {
+      "id": "Q8",
+      "version": 1,
+      "source": "CHAT_FAKENEWS_1",
+      "topic": "Klassifikation/Sicherheitsanwendungen",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Skizzieren Sie einen Ansatz für **Fake‑News‑Detektion**: Daten, Features/Modelle, Evaluation, Robustheit.",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "**Pipeline:**\n- **Daten:** Titel+Body; Label (fake/real). Split chronologisch (Leak vermeiden). Balancing prüfen.\n- **Vorverarbeitung:** Normalisieren, URLs/Handles, Sprachdetektion; ggf. Claim‑Extraktion.\n- **Repräsentationen:** (a) TF‑IDF n‑Gramme (1–3), (b) kontextuelle Embeddings (BERT/Longformer).\n- **Modelle:** Lineare Baselines (LogReg/SVM) + Feintuning eines Encoder‑Modells (CLS‑Token → Softmax).\n- **Evaluation:** Stratified k‑fold oder zeitlich getreu; Metriken: Precision/Recall/F1, ROC‑AUC; Kalibrierung prüfen.\n- **Robustheit:** Adversarien (Paraphrasen), Quellen‑/Themen‑Shift (OOD‑Test), Erklärbarkeit (SHAP/Attention‑Rollout),\n  und Regel‑Checks (Clickbait‑Indikatoren) kombinieren.\n- **Fehleranalyse:** Confusion‑Matrizen, Hard‑Negatives sammeln und nachtrainieren.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Chat‑Gedächtnisprotokoll."
+    },
+    {
+      "id": "Q9",
+      "version": 1,
+      "source": "CHAT_ATTENTION_1",
+      "topic": "Transformer/Attention",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Erläutern Sie **Scaled Dot‑Product Self‑Attention** und nennen Sie die Schritte der Berechnung.\nGehen Sie auch kurz auf **Multi‑Head Attention** und die Rechenkomplexität ein.",
+      "math": [
+        "$\\displaystyle \\mathrm{Attn}(Q,K,V)=\\mathrm{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V$",
+        "$Q=XW^Q,\\ K=XW^K,\\ V=XW^V$",
+        "$\\text{MHA}(X)=\\mathrm{Concat}(\\mathrm{head}_1,\\dots,\\mathrm{head}_h)W^O$"
+      ],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "**Self‑Attention:**\n1) Lineare Projektionen: Q=XW^Q, K=XW^K, V=XW^V.\n2) Skalarprodukte: S=QK^T / √d_k (Skalierung stabilisiert Gradienten).\n3) Gewichte: A=softmax(S) zeilenweise.\n4) Ausgabe: Z = A·V.\n**Multi‑Head:** h parallele Köpfe mit kleineren d_k, die unterschiedliche Relationen lernen; deren Ausgaben werden\nkonkateniert und mit W^O projiziert. **Komplexität:** O(n²·d) in der Sequenzlänge n (durch QK^T); Speicher O(n²).\nMaskierte Attention (Decoder) verhindert Blick in die Zukunft.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Chat‑Gedächtnisprotokoll; genaue Aufgabenstellung unbekannt."
+    },
+    {
+      "id": "Q10",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_1",
+      "topic": "Lexikalische Zähleinheiten",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "calculation",
+      "answer_type": "numeric_map",
+      "prompt": "Beantworten Sie die folgenden Fragen zu lexikalischen Zähleinheiten:\n\n1.1 Zählen Sie die **Token** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt.*\n\n1.2 Zählen Sie die **Wortformen** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Fliegt eine Fliege hinter Fliegen, so fliegt eine Fliege Fliegen nach.*\n\n1.3 Zählen Sie die **syntaktischen Wörter** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*In Hausstadt steht ein Haus, hinter dem zwei Häuser stehen und auf dem einen der beiden ist zu lesen: \"Das ist unser Haus!\"*\n\n1.4 Zählen Sie die **Lexeme** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Rechtsgelehrte wissen, dass recht haben und Recht bekommen zwei sehr unterschiedliche Dinge sind.*\n\n1.5 Zählen Sie die **Lexemgruppen** - ohne Berücksichtigung von Satzzeichen - für den folgenden Satz:\n*Am Fischteich \"Anglersee\" bei Mittelangeln angelten viele Hobbyangler, die ihre Angeln beim Angelverleih \"Anglerbedarf Unterangeln\" ausgeliehen hatten.*",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "1.1 **Token:** 20\n1.2 **Wortformen:** 7 (Fliegt, eine, Fliege, hinter, Fliegen, so, nach)\n1.3 **Syntaktische Wörter:** 22\n1.4 **Lexeme:** 11 (Rechtsgelehrte, wissen, dass, recht haben, und, Recht bekommen, zwei, sehr, unterschiedlich, Ding, sein)\n1.5 **Lexemgruppen:** 9 (Am, Fischteich, Anglersee, bei, Mittelangeln, angelten, viele, Hobbyangler, die, ihre, Angeln, beim, Angelverleih, Anglerbedarf, Unterangeln, ausgeliehen, hatten -> Gruppen: angeln, Angler, See, Verleih etc.)"
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 1. Die Antworten wurden aus dem PDF übernommen, aber die Zählung für 1.2 und 1.4 wurde korrigiert/präzisiert."
+    },
+    {
+      "id": "Q11",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_2",
+      "topic": "Lexikalische Zähleinheiten",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "calculation",
+      "answer_type": "numeric_map",
+      "prompt": "Sei der folgende Satz gegeben:\n\n*Wenn hinter Fliegen eine Fliege fliegt, fliegen Fliegen einer Fliege voraus.*\n\nZählen Sie nun die Anzahl der:\n- Token\n- Wortformen\n- Syntaktischen Wörter\n- Lexeme\n- Lexemgruppen",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "fields": {
+          "token": {
+            "value": 11
+          }
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 2."
+    },
+    {
+      "id": "Q12",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_3",
+      "topic": "Lexikalische Zähleinheiten",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "calculation",
+      "answer_type": "numeric_map",
+      "prompt": "Es sei der folgende Satz gegeben:\n\n*In Hausstadt steht ein Haus, hinter dem zwei Häuser stehen; und auf dem einen der beiden ist zu lesen: \"Das ist unser Haus!\"*\n\nZählen Sie nun - ohne Berücksichtigung von Satzzeichen – die Anzahl der:\n- Token\n- Wortformen\n- Syntaktischen Wörter\n- Lexeme\n- Lexemgruppen",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "- **Token:** 23\n- **Wortformen:** 20\n- **Syntaktische Wörter:** 23\n- **Lexeme:** 15\n- **Lexemgruppen:** 8"
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 3."
+    },
+    {
+      "id": "Q13",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_4",
+      "topic": "Skip-Gramme",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_single",
+      "prompt": "Die aus der Vorlesung bekannte Skip-Gramm-Formel umfasst für ein bestimmtes k und ein bestimmtes n alle n-Gramme mit bis zu k Skips. Wie jedoch sieht die Formel aus, die nur genau k Skips bei der n-Gramm-Erstellung erlaubt?",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "A"
+        },
+        {
+          "id": "B",
+          "text": "B"
+        },
+        {
+          "id": "C",
+          "text": "C"
+        }
+      ],
+      "answer": {
+        "correct": "A",
+        "explanation": "Die korrekte Formel ist A, da die Summe der Abstände zwischen den Wörtern genau k ergeben muss."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 4. Die Formeln selbst wurden aufgrund von OCR-Schwierigkeiten weggelassen und durch Buchstaben ersetzt."
+    },
+    {
+      "id": "Q14",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_5",
+      "topic": "Skip-Gramme",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_multiple",
+      "prompt": "Welche 2-Skip-3-Gramme kommen in dem folgenden Text vor:\n\n*Insurgents killed in ongoing fighting.*",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "insurgents killed in"
+        },
+        {
+          "id": "B",
+          "text": "insurgents killed"
+        },
+        {
+          "id": "C",
+          "text": "in fighting ongoing"
+        },
+        {
+          "id": "D",
+          "text": "insurgents killed fighting"
+        },
+        {
+          "id": "E",
+          "text": "killed in ongoing"
+        },
+        {
+          "id": "F",
+          "text": "in ongoing fights"
+        }
+      ],
+      "answer": {
+        "correct": [
+          "A",
+          "D",
+          "E"
+        ],
+        "explanation": "Korrekte 2-Skip-3-Gramme sind: 'insurgents killed in', 'insurgents killed fighting', 'killed in ongoing'."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 5. Die korrekten Optionen wurden basierend auf der Definition von 2-skip-3-grams ausgewählt."
+    },
+    {
+      "id": "Q15",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_6",
+      "topic": "Lexikalische Zähleinheiten",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Differenzieren Sie zwischen \"Wortform\" und \"syntaktisches Wort\". Geben Sie hierzu eine (kurze) Definition der beiden Begriffe und heben Sie hervor, wie sie sich unterscheiden.",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "Ein **syntaktisches Wort** ist ein Token, das eine grammatikalische Funktion erfüllt (z.B. 'fliegen' als Verb). Eine **Wortform** ist eine spezifische Realisierung eines syntaktischen Wortes, die nach Kasus, Numerus etc. differenziert ist (z.B. 'Fliegen' im Dativ Plural vs. 'Fliege' im Nominativ Singular). Syntaktische Wörter können flektiert werden, Wortformen sind das Ergebnis dieser Flexion.",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 6."
+    },
+    {
+      "id": "Q16",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_7",
+      "topic": "Masked Language Models",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "free_text",
+      "prompt": "Es sei ein Masked Language Model (MLM) wie BERT (Devlin et al., 2018) gegeben. Lassen sich mit einem MLM Scores für Wörter berechnen, die nicht mit einem einzelnen Token (Sub-Word) repräsentiert werden können? Antworten Sie zunächst mit Ja oder Nein und begründen Sie dann Ihre Antwort kurz.",
+      "math": [],
+      "materials": [],
+      "options": [],
+      "answer": {
+        "reference": "Ja. BERT verwendet ein WordPiece-Verfahren, das Wörter in kleinere Subwörter zerlegen kann. Das MLM berechnet für jedes maskierte Subword eine Wahrscheinlichkeit. Um einen Score für das gesamte Wort zu erhalten, können die Wahrscheinlichkeiten der einzelnen Subwörter kombiniert werden (z.B. durch Multiplikation/Log-Likelihood oder Mittelung).",
+        "rubric": {
+          "mode": "partial",
+          "keywords": {}
+        }
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 7."
+    },
+    {
+      "id": "Q18",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_9",
+      "topic": "Skip-Gramme",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_single",
+      "prompt": "Welche 2-Skip-3-Gramme kommen in dem folgenden Text - ohne Berücksichtigung von Satzzeichen - vor:\n\n*In Hausstadt steht ein Haus, hinter dem zwei Häuser stehen.*",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "In Hausstadt Häuser"
+        },
+        {
+          "id": "B",
+          "text": "In Haus steht"
+        },
+        {
+          "id": "C",
+          "text": "stehen zwei Häuser"
+        },
+        {
+          "id": "D",
+          "text": "ein Haus zwei Häuser"
+        },
+        {
+          "id": "E",
+          "text": "In steht Haus"
+        },
+        {
+          "id": "F",
+          "text": "Haus hinter zwei"
+        }
+      ],
+      "answer": {
+        "correct": [
+          "E",
+          "F"
+        ],
+        "explanation": "Die korrekte Antwort ist 'In steht Haus'."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 9."
+    },
+    {
+      "id": "Q19",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_10",
+      "topic": "Sentiment Analysis",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_multiple",
+      "prompt": "Sei ein Sentiment-Tupel definiert als (e, a, s), wobei gilt:\n- Zielentität e\n- Merkmal a von e\n- Sentiment s der Meinung des Meinungsträgers bezogen auf das Merkmal a von Entität e\n- s kann die folgenden Werte annehmen: negativ, neutral, positiv\n\nWählen Sie die Sentiment-Tupel aus, welche im folgenden Text vertreten werden:\n*In der Praxis stellen wir fest, dass Sie mit dem Universe X42 grundsätzlich gleich gute Fotos schießen wie mit dem Universe Z23 Ultra. Bei Standardfotos stimmen Schärfe und Helligkeit, auch wenn Bilder stärker nachgeschärft werden als beim Top-Modell. Die Farben weichen teils von der Realität ab, das Z23 Ultra zeigt natürlichere Farben an. Die Akkulaufzeit ist gut - nur das Aufladen geht zu langsam. Unterm Strich bekommen Sie aber sehr viel geboten für Ihr Geld.*",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "(Universe Z23 Ultra, Aufladen, positiv)"
+        },
+        {
+          "id": "B",
+          "text": "(Universe X42, Akkulaufzeit, positiv)"
+        },
+        {
+          "id": "C",
+          "text": "(Universe X42, Bildhelligkeit, negativ)"
+        },
+        {
+          "id": "D",
+          "text": "(Universe X42, Preis-Leistungsverhältnis, positiv)"
+        }
+      ],
+      "answer": {
+        "correct": [
+          "B",
+          "D"
+        ],
+        "explanation": "Korrekte Tupel sind (Universe X42, Akkulaufzeit, positiv) und (Universe X42, Preis-Leistungsverhältnis, positiv)."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 10."
+    },
+    {
+      "id": "Q20",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_11",
+      "topic": "Skip-Gramme",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_multiple",
+      "prompt": "Welche 1-Skip-4-Gramme kommen in dem folgenden Text - ohne Berücksichtigung von Satzzeichen - vor:\n\n*Als Gregor Samsa eines Morgens aus unruhigen Träumen erwachte, fand er sich in seinem Bett zu einem ungeheueren Ungeziefer verwandelt.*",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "fand in seinem Bett"
+        },
+        {
+          "id": "B",
+          "text": "Bett zu ungeheueren Ungeziefer"
+        },
+        {
+          "id": "C",
+          "text": "aus unruhigen Träumen erwachte"
+        },
+        {
+          "id": "D",
+          "text": "zu ungeheueren Ungeziefer verwandelt"
+        },
+        {
+          "id": "E",
+          "text": "Gregor Samsa Morgens unruhigen"
+        },
+        {
+          "id": "F",
+          "text": "fand er sich in seinem Bett"
+        }
+      ],
+      "answer": {
+        "correct": [
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "explanation": "Korrekte 1-Skip-4-Gramme sind 'aus unruhigen Träumen erwachte' und 'zu ungeheueren Ungeziefer verwandelt'."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 11."
+    },
+    {
+      "id": "Q21",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_12",
+      "topic": "Sprachmodelle",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_single",
+      "prompt": "Eine Forscherin/ein Forscher hat herausgefunden, dass sich die Autorenschaft eines Textes durch Muster in kurzen Sequenzen von Verben in Texten feststellen lässt. Diese Muster bestehen in Form von Sequenzen von Verben der Mindestlänge 2, allerdings muss dabei manchmal ein Verb übersprungen werden und die Gesamtlänge der Sequenz darf 3 nicht überschreiten. Die Verbsequenzen können sich über Satzgrenzen hinaus erstrecken, allerdings nicht über unterschiedliche Paragraphen. Welches der folgenden Sprachmodelle ist geeignet, um diese Muster zu erkennen?",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "Bag-of-3-Skip-1-Grams-of-Verb-Token innerhalb des gleichen Paragraphen"
+        },
+        {
+          "id": "B",
+          "text": "Die Vereinigung von 1-Skip-2-Grams- und 1-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen"
+        },
+        {
+          "id": "C",
+          "text": "Bag-of-1-Skip-3-Grams-of-Verb-Token innerhalb des gesamten Textes"
+        },
+        {
+          "id": "D",
+          "text": "Die Vereinigung von 1-Skip-2-Grams- und 2-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen"
+        },
+        {
+          "id": "E",
+          "text": "Bag-of-1-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen"
+        }
+      ],
+      "answer": {
+        "correct": "B",
+        "explanation": "Die korrekte Antwort ist 'Die Vereinigung von 1-Skip-2-Grams- und 1-Skip-3-Grams-of-Verb-Token innerhalb des gleichen Paragraphen', da dies Sequenzen der Länge 2 und 3 mit jeweils bis zu einem Skip abbildet."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 12."
+    },
+    {
+      "id": "Q22",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_13",
+      "topic": "Sprachmodelle",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_single",
+      "prompt": "In stark flektierenden Sprachen, wie beispielsweise Deutsch, haben Wörter in der Regel viele unterschiedliche Wortformen. Sie wollen nun Word Embeddings trainieren, dessen Repräsentationen invarianter gegenüber geringfügigen Änderungen von Wortformen des selben Wortes sind, als es das word2vec Modell ist. Dabei wollen Sie aber vermeiden, dass das Modell alle Wortformen eines Wortes gleich repräsentiert. Mit welchem der folgenden Ansätze kann Ihr Vorhaben gelingen?",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "Wörter werden durch Buchstaben n-Gramme repräsentiert und Word Embeddings als die Summe der n-Gram Embeddings berechnet."
+        },
+        {
+          "id": "B",
+          "text": "Wörter werden durch Buchstaben n-Gramme repräsentiert und Word Embeddings als die Konkatenierung der n-Gram Embeddings berechnet."
+        },
+        {
+          "id": "C",
+          "text": "Sie extrahieren syntaktische Informationen und konkatenieren entsprechende Syntax-Merkmal-Embeddings mit dem Embedding der Wortform."
+        },
+        {
+          "id": "D",
+          "text": "Sie verwenden die Lemmata der Wörter, anstelle der Wortformen."
+        }
+      ],
+      "answer": {
+        "correct": "A",
+        "explanation": "Die korrekte Antwort ist A. Durch die Repräsentation über Buchstaben-n-Gramme und die Summierung der Embeddings (wie bei FastText) werden ähnliche Wortformen ähnliche Vektoren haben, ohne identisch zu sein."
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Transkribiert und korrigiert von PDF Seite 13."
+    },
+    {
+      "id": "Q17a",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_8",
+      "topic": "Skip-Gramme",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_multiple",
+      "prompt": "Welche 1-Skip-3-Gramme kommen in folgendem Satz vor?\n\nIn Hausen steht ein Haus, hinter dem zwei Häuser stehen.",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "In Hausen steht"
+        },
+        {
+          "id": "B",
+          "text": "Haus hinter zwei"
+        },
+        {
+          "id": "C",
+          "text": "Hausen ein Haus"
+        }
+      ],
+      "answer": {
+        "correct": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Q17 (Teil 3.1) extrahiert und bereinigt."
+    },
+    {
+      "id": "Q17b",
+      "version": 1,
+      "source": "NLP_Cluster_aufgaben.pdf_8",
+      "topic": "Skip-Gramme",
+      "tags": [],
+      "points": 1,
+      "difficulty": "mittel",
+      "question_format": "comprehension",
+      "answer_type": "multiple_choice_multiple",
+      "prompt": "Welche 2-Skip-4-Gramme kommen in folgendem Satz vor?\n\nDie Akkulaufzeit ist gut - nur das Aufladen geht zu langsam.",
+      "math": [],
+      "materials": [],
+      "options": [
+        {
+          "id": "A",
+          "text": "Die gut nur das"
+        },
+        {
+          "id": "B",
+          "text": "gut das geht langsam"
+        },
+        {
+          "id": "C",
+          "text": "Akkulaufzeit ist das Aufladen"
+        }
+      ],
+      "answer": {
+        "correct": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "hints": [],
+      "solution": [],
+      "verified": true,
+      "notes": "Aus Q17 (Teil 3.2) extrahiert und bereinigt."
+    }
+  ]
+}
